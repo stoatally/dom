@@ -7,6 +7,11 @@ use DomElement;
 use DomNode;
 
 trait NodeTrait {
+    public function getDocument(): DomDocument
+    {
+        return $this->ownerDocument;
+    }
+
     public function import($value): DomNode
     {
         if ($value instanceof ImportableNode) {
@@ -31,9 +36,17 @@ trait NodeTrait {
         return $document->createTextNode((string) $value);
     }
 
-    public function getDocument(): DomDocument
+    public function set($value): DomNode
     {
-        return $this->ownerDocument;
+        $this->nodeValue = null;
+        $this->appendChild($this->import($value));
+
+        return $this;
+    }
+
+    public function get(): ?string
+    {
+        return $this->nodeValue;
     }
 
     public function after($value): DomNode
@@ -71,18 +84,5 @@ trait NodeTrait {
     public function replace($value): DomNode
     {
         return $this->parentNode->replaceChild($this->import($value), $this);
-    }
-
-    public function set($value): DomNode
-    {
-        $this->nodeValue = null;
-        $this->appendChild($this->import($value));
-
-        return $this;
-    }
-
-    public function get(): ?string
-    {
-        return $this->nodeValue;
     }
 }

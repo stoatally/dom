@@ -6,9 +6,13 @@ use DomDocument;
 use DomNode;
 
 interface Node {
+    public function getDocument(): DomDocument;
+
     public function import($value): DomNode;
 
-    public function getDocument(): DomDocument;
+    public function set($value): DomNode;
+
+    public function get(): ?string;
 
     public function after($value): DomNode;
 
@@ -19,8 +23,4 @@ interface Node {
     public function prepend($value): DomNode;
 
     public function replace($value): DomNode;
-
-    public function set($value): DomNode;
-
-    public function get(): ?string;
 }
