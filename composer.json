@@ -1,0 +1,22 @@
+{
+    "name": "stoatally/document-object-model",
+    "description": "Life improving enhancements to the standard PHP DOM.",
+    "keywords": ["dom", "html", "xml"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Filip Hendrik",
+            "email": "stoatally@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "phpunit/phpunit": "6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Stoatally\\DocumentObjectModel\\": "src/"
+        }
+    }
+}
