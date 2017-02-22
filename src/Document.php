@@ -5,11 +5,11 @@ namespace Stoatally\DocumentObjectModel;
 use DomDocument;
 use DomNode;
 
-class Document extends DomDocument implements ImportableNode
+class Document extends DomDocument implements Node, ImportableNode
 {
     use NodeTrait;
 
-    public function getDocument()
+    public function getDocument(): DomDocument
     {
         return $this;
     }

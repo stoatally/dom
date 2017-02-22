@@ -16,7 +16,7 @@ trait NodeTrait {
         return $this->importOrCreateNode($value);
     }
 
-    private function importOrCreateNode($value)
+    private function importOrCreateNode($value): DomNode
     {
         $document = $this->getDocument();
 
@@ -31,12 +31,13 @@ trait NodeTrait {
         return $document->createTextNode((string) $value);
     }
 
-    public function getDocument()
+    public function getDocument(): DomDocument
     {
         return $this->ownerDocument;
     }
 
-    public function after($value) {
+    public function after($value): DomNode
+    {
         $node = $this->import($value);
 
         if (isset($this->nextSibling)) {
@@ -46,17 +47,17 @@ trait NodeTrait {
         return $this->parentNode->appendChild($node);
     }
 
-    public function before($value)
+    public function before($value): DomNode
     {
         return $this->parentNode->insertBefore($this->import($value), $this);
     }
 
-    public function append($value)
+    public function append($value): DomNode
     {
         return $this->appendChild($this->import($value));
     }
 
-    public function prepend($value)
+    public function prepend($value): DomNode
     {
         $node = $this->import($value);
 
@@ -67,12 +68,12 @@ trait NodeTrait {
         return $this->appendChild($node);
     }
 
-    public function replace($value)
+    public function replace($value): DomNode
     {
         return $this->parentNode->replaceChild($this->import($value), $this);
     }
 
-    public function set($value)
+    public function set($value): DomNode
     {
         $this->nodeValue = null;
         $this->appendChild($this->import($value));
@@ -80,7 +81,7 @@ trait NodeTrait {
         return $this;
     }
 
-    public function get()
+    public function get(): ?string
     {
         return $this->nodeValue;
     }
