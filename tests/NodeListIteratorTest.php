@@ -7,13 +7,13 @@ use LogicException;
 use PHPUnit\Framework\TestCase;
 use OutOfBoundsException;
 
-class IteratorTest extends TestCase
+class NodeListIteratorTest extends TestCase
 {
     public function testCreateIteratorFromNodeList()
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/><b/><c/>');
-        $iterator = new Iterator($document->childNodes);
+        $iterator = new NodeListIterator($document->childNodes);
 
         $this->assertTrue($iterator->getIterator() instanceof DomNodeList);
         $this->assertEquals(3, count($iterator));
@@ -23,7 +23,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/><b/><c/>');
-        $iterator = new Iterator($document->childNodes);
+        $iterator = new NodeListIterator($document->childNodes);
 
         $this->assertEquals('a', $iterator[0]->tagName);
     }
@@ -32,7 +32,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/><b/><c/>');
-        $iterator = new Iterator($document->childNodes);
+        $iterator = new NodeListIterator($document->childNodes);
 
         $this->assertEquals('c', $iterator[2]->tagName);
         $this->assertEquals('c', $iterator[-1]->tagName);
@@ -42,7 +42,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/><b/><c/>');
-        $iterator = new Iterator($document->childNodes);
+        $iterator = new NodeListIterator($document->childNodes);
 
         $this->expectException(OutOfBoundsException::class);
         $iterator[100];
@@ -52,7 +52,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/><b/><c/>');
-        $iterator = new Iterator($document->childNodes);
+        $iterator = new NodeListIterator($document->childNodes);
 
         $this->expectException(LogicException::class);
         $iterator[1] = $iterator[-1];
@@ -62,7 +62,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/><b/><c/>');
-        $iterator = new Iterator($document->childNodes);
+        $iterator = new NodeListIterator($document->childNodes);
 
         $this->expectException(LogicException::class);
         unset($iterator[-1]);
@@ -72,7 +72,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/><b/><c/>');
-        $iterator = new Iterator($document->childNodes);
+        $iterator = new NodeListIterator($document->childNodes);
 
         $this->assertEquals($document, $iterator->getDocument());
     }
@@ -83,14 +83,14 @@ class IteratorTest extends TestCase
         $document = $documentFactory->createFromString('<a/>');
 
         $this->expectException(LogicException::class);
-        (new Iterator($document->documentElement->childNodes))->getDocument();
+        (new NodeListIterator($document->documentElement->childNodes))->getDocument();
     }
 
     public function testSetContents()
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/>');
-        $iterator = new Iterator($document->childNodes);
+        $iterator = new NodeListIterator($document->childNodes);
 
         $iterator->set('1');
 
@@ -103,14 +103,14 @@ class IteratorTest extends TestCase
         $document = $documentFactory->createFromString('<a/>');
 
         $this->expectException(LogicException::class);
-        (new Iterator($document->documentElement->childNodes))->set('1');
+        (new NodeListIterator($document->documentElement->childNodes))->set('1');
     }
 
     public function testGetContents()
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a>1</a>');
-        $iterator = new Iterator($document->childNodes);
+        $iterator = new NodeListIterator($document->childNodes);
 
         $this->assertEquals('1', $iterator->get());
     }
@@ -121,7 +121,7 @@ class IteratorTest extends TestCase
         $document = $documentFactory->createFromString('<a/>');
 
         $this->expectException(LogicException::class);
-        (new Iterator($document->documentElement->childNodes))->get();
+        (new NodeListIterator($document->documentElement->childNodes))->get();
     }
 
     public function testImportNode()
@@ -129,8 +129,8 @@ class IteratorTest extends TestCase
         $documentFactory = new DocumentFactory();
         $documentA = $documentFactory->createFromString('<a/>');
         $documentB = $documentFactory->createFromString('<b/>');
-        $iteratorA = new Iterator($documentA->childNodes);
-        $iteratorB = new Iterator($documentB->childNodes);
+        $iteratorA = new NodeListIterator($documentA->childNodes);
+        $iteratorB = new NodeListIterator($documentB->childNodes);
 
         $result = $iteratorA->import($iteratorB[0]);
         $documentA->appendChild($result);
@@ -144,8 +144,8 @@ class IteratorTest extends TestCase
         $documentFactory = new DocumentFactory();
         $documentA = $documentFactory->createFromString('<a/>');
         $documentB = $documentFactory->createFromString('<b/>');
-        $iteratorA = new Iterator($documentA->documentElement->childNodes);
-        $iteratorB = new Iterator($documentB->childNodes);
+        $iteratorA = new NodeListIterator($documentA->documentElement->childNodes);
+        $iteratorB = new NodeListIterator($documentB->childNodes);
 
         $this->expectException(LogicException::class);
         $iteratorA->import($iteratorB[0]);
@@ -156,8 +156,8 @@ class IteratorTest extends TestCase
         $documentFactory = new DocumentFactory();
         $documentA = $documentFactory->createFromString('<a/>');
         $documentB = $documentFactory->createFromString('<b/>');
-        $iteratorA = new Iterator($documentA->childNodes);
-        $iteratorB = new Iterator($documentB->childNodes);
+        $iteratorA = new NodeListIterator($documentA->childNodes);
+        $iteratorB = new NodeListIterator($documentB->childNodes);
 
         $result = $iteratorA->import($iteratorB);
         $documentA->appendChild($result);
@@ -170,7 +170,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/>');
-        $iterator = new Iterator($document->childNodes);
+        $iterator = new NodeListIterator($document->childNodes);
 
         $iterator->after(
             $document->createElement('b')
@@ -183,7 +183,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/>');
-        $iterator = new Iterator($document->documentElement->childNodes);
+        $iterator = new NodeListIterator($document->documentElement->childNodes);
 
         $this->expectException(LogicException::class);
         $iterator->after(
@@ -195,7 +195,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<b/>');
-        $iterator = new Iterator($document->childNodes);
+        $iterator = new NodeListIterator($document->childNodes);
 
         $iterator->before(
             $document->createElement('a')
@@ -208,7 +208,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<b/>');
-        $iterator = new Iterator($document->documentElement->childNodes);
+        $iterator = new NodeListIterator($document->documentElement->childNodes);
 
         $this->expectException(LogicException::class);
         $iterator->before(
@@ -220,7 +220,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/>');
-        $iterator = new Iterator($document->childNodes);
+        $iterator = new NodeListIterator($document->childNodes);
 
         $iterator->append(
             $document->createElement('b')
@@ -233,7 +233,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/>');
-        $iterator = new Iterator($document->documentElement->childNodes);
+        $iterator = new NodeListIterator($document->documentElement->childNodes);
 
         $this->expectException(LogicException::class);
         $iterator->append(
@@ -245,7 +245,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/>');
-        $iterator = new Iterator($document->childNodes);
+        $iterator = new NodeListIterator($document->childNodes);
 
         $iterator->prepend(
             $document->createElement('b')
@@ -258,7 +258,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/>');
-        $iterator = new Iterator($document->documentElement->childNodes);
+        $iterator = new NodeListIterator($document->documentElement->childNodes);
 
         $this->expectException(LogicException::class);
         $iterator->prepend(
@@ -270,7 +270,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/>');
-        $iterator = new Iterator($document->childNodes);
+        $iterator = new NodeListIterator($document->childNodes);
 
         $iterator->replace(
             $document->createElement('b')
@@ -283,7 +283,7 @@ class IteratorTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/>');
-        $iterator = new Iterator($document->documentElement->childNodes);
+        $iterator = new NodeListIterator($document->documentElement->childNodes);
 
         $this->expectException(LogicException::class);
         $iterator->replace(
