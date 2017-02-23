@@ -6,14 +6,19 @@ use DomNodeList;
 use LogicException;
 use OutOfBoundsException;
 
-class NodeListIteratorTest extends IteratorTest
+class ArrayIteratorTest extends IteratorTest
 {
     protected function create($html)
     {
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString($html);
+        $items = [];
 
-        return [$document, new NodeListIterator($document->childNodes)];
+        foreach ($document->childNodes as $child) {
+            $items[] = $child;
+        }
+
+        return [$document, new ArrayIterator($items)];
     }
 
     protected function createEmpty()
@@ -21,10 +26,10 @@ class NodeListIteratorTest extends IteratorTest
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<a/>');
 
-        return [$document, new NodeListIterator($document->documentElement->childNodes)];
+        return [$document, new ArrayIterator([])];
     }
 
-    public function testCreateIteratorFromNodeList()
+    public function testCreateIteratorFromArray()
     {
         list($document, $iterator) = $this->create('<a/><b/><c/>');
 

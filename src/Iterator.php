@@ -1,11 +1,11 @@
 <?php
 
-namespace Stoatally\DocumentObjectModel;
+namespace Stoatally\Dom;
 
 use ArrayAccess;
 use Countable;
-use Traversable;
 
-interface Iterator extends ArrayAccess, Countable, Node, ImportableNode
+interface Iterator extends ArrayAccess, Countable, Node, ImportableNode, QueryableNode
 {
+    public function fill($items, ?Callable $callback = null): Iterator;
 }

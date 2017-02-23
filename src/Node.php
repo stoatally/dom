@@ -1,12 +1,14 @@
 <?php
 
-namespace Stoatally\DocumentObjectModel;
+namespace Stoatally\Dom;
 
 use DomDocument;
 use DomNode;
 
 interface Node {
     public function getDocument(): DomDocument;
+
+    public function getNode(): DomNode;
 
     public function import($value): DomNode;
 
@@ -23,4 +25,8 @@ interface Node {
     public function prepend($value): DomNode;
 
     public function replace($value): DomNode;
+
+    public function duplicate(int $times): Iterator;
+
+    public function repeat($items, ?Callable $callback = null): Iterator;
 }

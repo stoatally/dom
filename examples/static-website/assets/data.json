@@ -1,0 +1,15 @@
+{
+    "site-url":         "http://example.com/",
+    "site-title":       "An example website",
+    "copyright-year":   2017,
+    "articles": [
+        {
+            "title":    "An article",
+            "date":     "2017-02-22"
+        },
+        {
+            "title":    "An older article",
+            "date":     "2017-01-22"
+        }
+    ]
+}

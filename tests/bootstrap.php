@@ -1,4 +1,4 @@
 <?php
 
 $loader = require __DIR__ . '/../vendor/autoload.php';
-$loader->addPsr4('Stoatally\\DocumentObjectModel\\', __DIR__);
+$loader->addPsr4('Stoatally\\Dom\\', __DIR__);

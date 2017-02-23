@@ -1,5 +1,5 @@
 {
-    "name": "stoatally/document-object-model",
+    "name": "stoatally/dom",
     "description": "Life improving enhancements to the standard PHP DOM.",
     "keywords": ["dom", "html", "xml"],
     "license": "MIT",
@@ -11,12 +11,11 @@
         }
     ],
     "require": {
-        "php": ">=7.0.0",
-        "phpunit/phpunit": "6.0"
+        "php": ">=7.1.0"
     },
     "autoload": {
         "psr-4": {
-            "Stoatally\\DocumentObjectModel\\": "src/"
+            "Stoatally\\Dom\\": "src/"
         }
     }
 }

@@ -2,34 +2,37 @@
 
 namespace Stoatally\Dom;
 
-use DomNodeList;
-use IteratorIterator;
+use ArrayIterator as NativeArrayIterator;
+use IteratorAggregate;
 use LogicException;
 use OutOfBoundsException;
 
-class NodeListIterator extends IteratorIterator implements Iterator
+class ArrayIterator implements Iterator, IteratorAggregate
 {
     use IteratorTrait;
 
     private $nodes;
 
-    public function __construct(DomNodeList $nodes)
+    public function __construct(array $nodes)
     {
-        $this->nodes = $nodes;
+        $this->nodes = new NativeArrayIterator($nodes);
+    }
 
-        parent::__construct($nodes);
+    public function getIterator()
+    {
+        return $this->nodes;
     }
 
     public function count(): int
     {
-        return $this->nodes->length;
+        return $this->nodes->count();
     }
 
     public function offsetExists($offset)
     {
         $offset = $this->prepareOffset($offset);
 
-        return $offset >= 0 && $offset < $this->nodes->length;
+        return $offset >= 0 && $offset < $this->nodes->count();
     }
 
     public function offsetGet($offset)
@@ -41,7 +44,7 @@ class NodeListIterator extends IteratorIterator implements Iterator
             ));
         }
 
-        return $this->nodes->item($this->prepareOffset($offset));
+        return $this->nodes[$this->prepareOffset($offset)];
     }
 
     public function offsetSet($offset, $value)
@@ -57,7 +60,7 @@ class NodeListIterator extends IteratorIterator implements Iterator
     private function prepareOffset(int $offset)
     {
         if ($offset < 0) {
-            return $this->nodes->length + $offset;
+            return $this->nodes->count() + $offset;
         }
 
         return $offset;

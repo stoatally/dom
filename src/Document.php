@@ -1,13 +1,27 @@
 <?php
 
-namespace Stoatally\DocumentObjectModel;
+namespace Stoatally\Dom;
 
 use DomDocument;
 use DomNode;
+use DomXPath;
 
-class Document extends DomDocument implements Node, ImportableNode
+class Document extends DomDocument implements Node, ImportableNode, QueryableNode
 {
     use NodeTrait;
+    use QueryableNodeTrait;
+
+    private $xpath;
+
+    public function getXPath(): DomXPath
+    {
+        return $this->xpath;
+    }
+
+    public function setXPath(DomXPath $xpath)
+    {
+        $this->xpath = $xpath;
+    }
 
     public function getDocument(): DomDocument
     {

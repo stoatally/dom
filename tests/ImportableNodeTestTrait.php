@@ -1,6 +1,6 @@
 <?php
 
-namespace Stoatally\DocumentObjectModel;
+namespace Stoatally\Dom;
 
 trait ImportableNodeTestTrait
 {

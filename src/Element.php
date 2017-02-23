@@ -1,11 +1,11 @@
 <?php
 
-namespace Stoatally\DocumentObjectModel;
+namespace Stoatally\Dom;
 
 use DomElement;
-use DomNode;
 
-class Element extends DomElement implements Node
+class Element extends DomElement implements Node, QueryableNode
 {
     use NodeTrait;
+    use QueryableNodeTrait;
 }

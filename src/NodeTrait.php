@@ -1,15 +1,19 @@
 <?php
 
-namespace Stoatally\DocumentObjectModel;
+namespace Stoatally\Dom;
 
 use DomDocument;
-use DomElement;
 use DomNode;
 
 trait NodeTrait {
     public function getDocument(): DomDocument
     {
         return $this->ownerDocument;
+    }
+
+    public function getNode(): DomNode
+    {
+        return $this;
     }
 
     public function import($value): DomNode
@@ -84,5 +88,31 @@ trait NodeTrait {
     public function replace($value): DomNode
     {
         return $this->parentNode->replaceChild($this->import($value), $this);
+    }
+
+    public function duplicate(int $times): Iterator
+    {
+        if ($times < 2) {
+            return new ArrayIterator([$this]);
+        }
+
+        $results = [$this];
+        $item = $this;
+
+        foreach (range(1, $times - 1) as $index) {
+            $clone = $results[] = $item->cloneNode(true);
+
+            if ($item->parentNode) {
+                $item->after($clone);
+                $item = $clone;
+            }
+        }
+
+        return new ArrayIterator($results);
+    }
+
+    public function repeat($items, ?Callable $callback = null): Iterator
+    {
+        return $this->duplicate(count($items))->fill($items, $callback);
     }
 }

@@ -1,31 +1,56 @@
 <?php
 
-namespace Stoatally\DocumentObjectModel;
+namespace Stoatally\Dom;
 
 class DocumentFactory
 {
+    private $xpathFactory;
+
+    public function __construct(XPathFactory $xpathFactory = null)
+    {
+        $this->xpathFactory = (
+            isset($xpathFactory)
+                ? $xpathFactory
+                : new XPathFactory()
+        );
+    }
+
     public function create()
     {
         $document = new Document();
 
-        $this->importHtmlEntities($document);
+        $this->importDefaultEntities($document);
         $this->setDocumentDefaults($document);
         $this->setCustomNodeClasses($document);
 
         return $document;
     }
 
-    public function createFromString(string $html)
+    public function createFromUri($file)
+    {
+        if (is_file($file) === false) {
+            throw new FileNotFoundException(sprintf(
+                'File "%s" does not exist.',
+                $file
+            ));
+        }
+
+        return $this->createFromString(file_get_contents($file));
+    }
+
+    public function createFromString(string $xmlOrHtml)
     {
         $document = $this->create();
         $fragment = $document->createDocumentFragment();
-        $fragment->appendXml($html);
+        $fragment->appendXml($xmlOrHtml);
         $document->appendChild($fragment);
+
+        $this->setXPathInstance($document);
 
         return $document;
     }
 
-    private function importHtmlEntities(Document $document)
+    private function importDefaultEntities(Document $document)
     {
         // Specify the path to the entities.dtd:
         $document->loadXML('<!DOCTYPE html SYSTEM "' . __DIR__ . '/../data/entities.dtd' . '"><html />');
@@ -55,5 +80,11 @@ class DocumentFactory
     {
         $document->registerNodeClass('DOMAttr', __NAMESPACE__ . '\Attribute');
         $document->registerNodeClass('DOMElement', __NAMESPACE__ . '\Element');
+    }
+
+    public function setXPathInstance(Document $document)
+    {
+        $xpath = $this->xpathFactory->createFromDocument($document);
+        $document->setXPath($xpath);
     }
 }

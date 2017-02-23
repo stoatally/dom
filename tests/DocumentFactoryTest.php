@@ -1,6 +1,6 @@
 <?php
 
-namespace Stoatally\DocumentObjectModel;
+namespace Stoatally\Dom;
 
 use DomEntityReference;
 use PHPUnit\Framework\TestCase;
@@ -26,6 +26,24 @@ class DocumentFactoryTest extends TestCase
 
         $this->assertTrue($attribute instanceof Attribute);
         $this->assertTrue($element instanceof Element);
+    }
+
+    public function testCreateDocumentFromUri()
+    {
+        $documentFactory = new DocumentFactory();
+        $document = $documentFactory->createFromUri(__DIR__ . '/../data/test.xml');
+
+        $this->assertTrue($document instanceof Document);
+        $this->assertTrue($document->documentElement instanceof Element);
+        $this->assertEquals($document->documentElement->tagName, 'xyz');
+    }
+
+    public function testCreateDocumentFromIncorrectUri()
+    {
+        $documentFactory = new DocumentFactory();
+
+        $this->expectException(FileNotFoundException::class);
+        $document = $documentFactory->createFromUri(__DIR__ . '/../data/test.x');
     }
 
     public function testCreateDocumentFromString()

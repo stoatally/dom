@@ -11,7 +11,7 @@
     bootstrap="tests/bootstrap.php"
 >
     <testsuites>
-        <testsuite name="Beagle Test Suite">
+        <testsuite name="main">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
