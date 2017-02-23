@@ -76,28 +76,6 @@ trait IteratorTrait
         }
     }
 
-    public function after($value): DomNode
-    {
-        try {
-            return $this[-1]->after($value);
-        }
-
-        catch (OutOfBoundsException $error) {
-            throw $this->createEmptyIteratorException(__METHOD__);
-        }
-    }
-
-    public function before($value): DomNode
-    {
-        try {
-            return $this[0]->before($value);
-        }
-
-        catch (OutOfBoundsException $error) {
-            throw $this->createEmptyIteratorException(__METHOD__);
-        }
-    }
-
     public function append($value): DomNode
     {
         try {
@@ -113,17 +91,6 @@ trait IteratorTrait
     {
         try {
             return $this[0]->prepend($value);
-        }
-
-        catch (OutOfBoundsException $error) {
-            throw $this->createEmptyIteratorException(__METHOD__);
-        }
-    }
-
-    public function replace($value): DomNode
-    {
-        try {
-            return $this[0]->replace($value);
         }
 
         catch (OutOfBoundsException $error) {
@@ -190,44 +157,4 @@ trait IteratorTrait
 
         return $this;
     }
-
-
-
-
-
-
-    // public function duplicate(int $times)
-    // {
-    //     if ($times < 2) {
-    //         return $this;
-    //     }
-
-    //     $results = [];
-
-    //     foreach ($this as $item) {
-    //         $results[] = $item;
-
-    //         foreach (range(1, $times - 1) as $index) {
-    //             $clone = $results[] = $item->cloneNode(true);
-
-    //             if ($item->parentNode) {
-    //                 $item->insertAfter($clone);
-    //                 $item = $clone;
-    //             }
-    //         }
-    //     }
-
-    //     return new Iterator(new ArrayIterator($results));
-    // }
-
-    // public function fill(array $children)
-    // {
-    //     foreach ($this as $index => $parent) {
-    //         $parent->nodeValue = null;
-
-    //         if (isset($children[$index])) {
-    //             $parent->appendChild($parent->import($children[$index]));
-    //         }
-    //     }
-    // }
 }

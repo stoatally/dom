@@ -7,59 +7,16 @@ use IteratorIterator;
 use LogicException;
 use OutOfBoundsException;
 
-class NodeListIterator extends IteratorIterator implements Iterator
+class NodeListIterator extends ArrayIterator
 {
-    use IteratorTrait;
-
-    private $nodes;
-
     public function __construct(DomNodeList $nodes)
     {
-        $this->nodes = $nodes;
+        $results = [];
 
-        parent::__construct($nodes);
-    }
-
-    public function count(): int
-    {
-        return $this->nodes->length;
-    }
-
-    public function offsetExists($offset)
-    {
-        $offset = $this->prepareOffset($offset);
-
-        return $offset >= 0 && $offset < $this->nodes->length;
-    }
-
-    public function offsetGet($offset)
-    {
-        if (false === isset($this[$offset])) {
-            throw new OutOfBoundsException(sprintf(
-                'Offset %d is out of bounds.',
-                $offset
-            ));
+        foreach ($nodes as $node) {
+            $results[] = $node;
         }
 
-        return $this->nodes->item($this->prepareOffset($offset));
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        throw new LogicException('NodeListIterator is immutable.');
-    }
-
-    public function offsetUnset($offset)
-    {
-        throw new LogicException('NodeListIterator is immutable.');
-    }
-
-    private function prepareOffset(int $offset)
-    {
-        if ($offset < 0) {
-            return $this->nodes->length + $offset;
-        }
-
-        return $offset;
+        parent::__construct($results);
     }
 }

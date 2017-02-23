@@ -143,48 +143,6 @@ abstract class IteratorTest extends TestCase
         $this->assertEquals("<a></a><b></b>\n", $documentA->saveHtml());
     }
 
-    public function testAppendSibling()
-    {
-        list($document, $iterator) = $this->create('<a/>');
-
-        $iterator->after(
-            $document->createElement('b')
-        );
-
-        $this->assertEquals("<a></a><b></b>\n", $document->saveHtml());
-    }
-
-    public function testAppendSiblingWhenEmpty()
-    {
-        list($document, $iterator) = $this->createEmpty();
-
-        $this->expectException(LogicException::class);
-        $iterator->after(
-            $document->createElement('b')
-        );
-    }
-
-    public function testPrependSibling()
-    {
-        list($document, $iterator) = $this->create('<b/>');
-
-        $iterator->before(
-            $document->createElement('a')
-        );
-
-        $this->assertEquals("<a></a><b></b>\n", $document->saveHtml());
-    }
-
-    public function testPrependSiblingWhenEmpty()
-    {
-        list($document, $iterator) = $this->createEmpty();
-
-        $this->expectException(LogicException::class);
-        $iterator->before(
-            $document->createElement('a')
-        );
-    }
-
     public function testAppendChild()
     {
         list($document, $iterator) = $this->create('<a/>');
@@ -227,27 +185,6 @@ abstract class IteratorTest extends TestCase
         );
     }
 
-    public function testReplaceSelf()
-    {
-        list($document, $iterator) = $this->create('<a/>');
-
-        $iterator->replace(
-            $document->createElement('b')
-        );
-
-        $this->assertEquals("<b></b>\n", $document->saveHtml());
-    }
-
-    public function testReplaceSelfWhenEmpty()
-    {
-        list($document, $iterator) = $this->createEmpty();
-
-        $this->expectException(LogicException::class);
-        $iterator->replace(
-            $document->createElement('b')
-        );
-    }
-
     public function testDuplicateSelf()
     {
         list($document, $iterator) = $this->create('<a/>');
@@ -282,24 +219,6 @@ abstract class IteratorTest extends TestCase
 
         $this->expectException(LogicException::class);
         $iterator->repeat([1, 2, 3]);
-    }
-
-    public function testQuery()
-    {
-        list($document, $iterator) = $this->create('<a><b/><c/></a>');
-
-        $results = $iterator->select('b');
-
-        $this->assertTrue($results instanceof Iterator);
-        $this->assertEquals(1, count($results));
-    }
-
-    public function testQueryWhenEmpty()
-    {
-        list($document, $iterator) = $this->createEmpty();
-
-        $this->expectException(LogicException::class);
-        $iterator->select('a');
     }
 
     public function testFillNodes()

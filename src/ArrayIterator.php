@@ -10,6 +10,7 @@ use OutOfBoundsException;
 class ArrayIterator implements Iterator, IteratorAggregate
 {
     use IteratorTrait;
+    use SiblingIteratorTrait;
 
     private $nodes;
 
@@ -26,6 +27,21 @@ class ArrayIterator implements Iterator, IteratorAggregate
     public function count(): int
     {
         return $this->nodes->count();
+    }
+
+    public function current()
+    {
+        return $this->nodes->current();
+    }
+
+    public function next()
+    {
+        $this->nodes->next();
+    }
+
+    public function rewind()
+    {
+        $this->nodes->rewind();
     }
 
     public function offsetExists($offset)

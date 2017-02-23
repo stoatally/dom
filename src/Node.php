@@ -16,15 +16,9 @@ interface Node {
 
     public function get(): ?string;
 
-    public function after($value): DomNode;
-
-    public function before($value): DomNode;
-
     public function append($value): DomNode;
 
     public function prepend($value): DomNode;
-
-    public function replace($value): DomNode;
 
     public function duplicate(int $times): Iterator;
 
