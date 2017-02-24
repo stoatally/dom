@@ -2,13 +2,41 @@
 
 namespace Stoatally\Dom;
 
-use DomNodeList;
 use LogicException;
-use PHPUnit\Framework\TestCase;
 use OutOfBoundsException;
+use PHPUnit\Framework\TestCase;
 
-abstract class IteratorTest extends TestCase
+class IteratorTest extends TestCase
 {
+    protected function create($html)
+    {
+        $documentFactory = new DocumentFactory();
+        $document = $documentFactory->createFromString($html);
+        $items = [];
+
+        foreach ($document->childNodes as $child) {
+            $items[] = $child;
+        }
+
+        return [$document, new Nodes\Iterator($document, $items)];
+    }
+
+    protected function createEmpty()
+    {
+        $documentFactory = new DocumentFactory();
+        $document = $documentFactory->createFromString('<a/>');
+
+        return [$document, new Nodes\Iterator($document, [])];
+    }
+
+    public function testCreateIteratorFromArray()
+    {
+        list($document, $iterator) = $this->create('<a/><b/><c/>');
+
+        $this->assertTrue($iterator instanceof NodeTypes\Iterator);
+        $this->assertEquals(3, count($iterator));
+    }
+
     public function testAccessFirstItem()
     {
         list($document, $iterator) = $this->create('<a/><b/><c/>');
@@ -53,14 +81,6 @@ abstract class IteratorTest extends TestCase
         list($document, $iterator) = $this->create('<a/><b/><c/>');
 
         $this->assertEquals($document, $iterator->getDocument());
-    }
-
-    public function testGetDocumentWhenEmpty()
-    {
-        list($document, $iterator) = $this->createEmpty();
-
-        $this->expectException(LogicException::class);
-        $iterator->getDocument();
     }
 
     public function testGetNode()
@@ -116,9 +136,9 @@ abstract class IteratorTest extends TestCase
         list($documentB, $iteratorB) = $this->create('<b/>');
 
         $result = $iteratorA->import($iteratorB[0]);
-        $documentA->appendChild($result);
+        $documentA->append($result);
 
-        $this->assertEquals($documentA, $result->ownerDocument);
+        $this->assertEquals($documentA, $result->getDocument());
         $this->assertEquals("<a></a><b></b>\n", $documentA->saveHtml());
     }
 
@@ -127,8 +147,9 @@ abstract class IteratorTest extends TestCase
         list($documentA, $iteratorA) = $this->createEmpty();
         list($documentB, $iteratorB) = $this->create('<b/>');
 
-        $this->expectException(LogicException::class);
-        $iteratorA->import($iteratorB[0]);
+        $results = $iteratorA->import($iteratorB[0]);
+
+        $this->assertTrue($results instanceof NodeTypes\Element);
     }
 
     public function testImportIterator()
@@ -137,9 +158,9 @@ abstract class IteratorTest extends TestCase
         list($documentB, $iteratorB) = $this->create('<b/>');
 
         $result = $iteratorA->import($iteratorB);
-        $documentA->appendChild($result);
+        $documentA->append($result);
 
-        $this->assertEquals($documentA, $result->ownerDocument);
+        $this->assertEquals($documentA, $result->getDocument());
         $this->assertEquals("<a></a><b></b>\n", $documentA->saveHtml());
     }
 
@@ -159,9 +180,7 @@ abstract class IteratorTest extends TestCase
         list($document, $iterator) = $this->createEmpty();
 
         $this->expectException(LogicException::class);
-        $iterator->append(
-            $document->createElement('b')
-        );
+        $iterator->append($document->createElement('b'));
     }
 
     public function testPrependChild()
@@ -208,7 +227,7 @@ abstract class IteratorTest extends TestCase
 
         $results = $iterator->repeat([1, 2, 3]);
 
-        $this->assertTrue($results instanceof Iterator);
+        $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(3, count($results));
         $this->assertEquals("<a>1</a><a>2</a><a>3</a>\n", $document->saveHtml());
     }
@@ -227,7 +246,7 @@ abstract class IteratorTest extends TestCase
 
         $results = $iterator->fill([1, 2, 3]);
 
-        $this->assertTrue($results instanceof Iterator);
+        $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(3, count($results));
         $this->assertEquals("<a>1</a><b>2</b><c>3</c>\n", $document->saveHtml());
     }
@@ -238,7 +257,7 @@ abstract class IteratorTest extends TestCase
 
         $results = $iterator->fill([1]);
 
-        $this->assertTrue($results instanceof Iterator);
+        $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(3, count($results));
         $this->assertEquals("<a>1</a><b></b><c></c>\n", $document->saveHtml());
     }

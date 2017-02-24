@@ -1,6 +1,8 @@
 <?php
 
-namespace Stoatally\Dom;
+namespace Stoatally\Dom\NodeTypes;
+
+use Stoatally\Dom\Nodes;
 
 trait QueryableNodeTrait
 {
@@ -17,6 +19,6 @@ trait QueryableNodeTrait
         $xpath = $this->getDocument()->getXPath();
         $element = $this->getNode();
 
-        return new NodeListIterator($xpath->query($query, $element));
+        return new Nodes\Iterator($this->getDocument(), iterator_to_array($xpath->query($query, $element)));
     }
 }

@@ -13,7 +13,7 @@ class XPathFactory
         $this->rootPrefix = $rootPrefix;
     }
 
-    public function createFromDocument(Document $document)
+    public function createFromDocument(NodeTypes\Document $document)
     {
         $xpath = new DomXPath($document);
 

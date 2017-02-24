@@ -109,7 +109,7 @@ class NodeTest extends TestCase
 
         $results = $document->documentElement->duplicate(3);
 
-        $this->assertTrue($results instanceof Iterator);
+        $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(3, count($results));
         $this->assertEquals("<a></a><a></a><a></a>\n", $document->saveHtml());
     }
@@ -120,7 +120,7 @@ class NodeTest extends TestCase
 
         $results = $document->documentElement->duplicate(1);
 
-        $this->assertTrue($results instanceof Iterator);
+        $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(1, count($results));
         $this->assertEquals("<a></a>\n", $document->saveHtml());
     }
@@ -131,7 +131,7 @@ class NodeTest extends TestCase
 
         $results = $document->documentElement->repeat([1, 2, 3]);
 
-        $this->assertTrue($results instanceof Iterator);
+        $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(3, count($results));
         $this->assertEquals("<a>1</a><a>2</a><a>3</a>\n", $document->saveHtml());
     }
@@ -144,7 +144,7 @@ class NodeTest extends TestCase
             $node->set($item * 2);
         });
 
-        $this->assertTrue($results instanceof Iterator);
+        $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(3, count($results));
         $this->assertEquals("<a>2</a><a>4</a><a>6</a>\n", $document->saveHtml());
     }

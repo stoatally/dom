@@ -1,9 +1,10 @@
 <?php
 
-namespace Stoatally\Dom;
+namespace Stoatally\Dom\NodeTypes;
 
 use DomDocument;
 use DomNode;
+use Stoatally\Dom\Nodes;
 
 trait NodeTrait {
     public function getDocument(): DomDocument
@@ -16,7 +17,7 @@ trait NodeTrait {
         return $this;
     }
 
-    public function import($value): DomNode
+    public function import($value): Node
     {
         if ($value instanceof ImportableNode) {
             $value = $value->getImportableNode();
@@ -72,7 +73,7 @@ trait NodeTrait {
     public function duplicate(int $times): Iterator
     {
         if ($times < 2) {
-            return new ArrayIterator([$this]);
+            return new Nodes\Iterator($this->getDocument(), [$this]);
         }
 
         $results = [$this];
@@ -87,7 +88,7 @@ trait NodeTrait {
             }
         }
 
-        return new ArrayIterator($results);
+        return new Nodes\Iterator($this->getDocument(), $results);
     }
 
     public function repeat($items, ?Callable $callback = null): Iterator

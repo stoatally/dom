@@ -2,7 +2,6 @@
 
 namespace Stoatally\Dom;
 
-use DomEntityReference;
 use PHPUnit\Framework\TestCase;
 
 class DocumentFactoryTest extends TestCase
@@ -12,7 +11,7 @@ class DocumentFactoryTest extends TestCase
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->create();
 
-        $this->assertTrue($document instanceof Document);
+        $this->assertTrue($document instanceof NodeTypes\Document);
         $this->assertEquals($document->encoding, 'UTF-8');
         $this->assertEquals($document->xmlVersion, '1.0');
     }
@@ -24,8 +23,8 @@ class DocumentFactoryTest extends TestCase
         $element = $document->createElement('test');
         $attribute = $document->createAttribute('test');
 
-        $this->assertTrue($attribute instanceof Attribute);
-        $this->assertTrue($element instanceof Element);
+        $this->assertTrue($attribute instanceof NodeTypes\Attribute);
+        $this->assertTrue($element instanceof NodeTypes\Element);
     }
 
     public function testCreateDocumentFromUri()
@@ -33,8 +32,8 @@ class DocumentFactoryTest extends TestCase
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromUri(__DIR__ . '/../data/test.xml');
 
-        $this->assertTrue($document instanceof Document);
-        $this->assertTrue($document->documentElement instanceof Element);
+        $this->assertTrue($document instanceof NodeTypes\Document);
+        $this->assertTrue($document->documentElement instanceof NodeTypes\Element);
         $this->assertEquals($document->documentElement->tagName, 'xyz');
     }
 
@@ -42,7 +41,7 @@ class DocumentFactoryTest extends TestCase
     {
         $documentFactory = new DocumentFactory();
 
-        $this->expectException(FileNotFoundException::class);
+        $this->expectException(Exceptions\FileNotFoundException::class);
         $document = $documentFactory->createFromUri(__DIR__ . '/../data/test.x');
     }
 
@@ -51,8 +50,8 @@ class DocumentFactoryTest extends TestCase
         $documentFactory = new DocumentFactory();
         $document = $documentFactory->createFromString('<xyz/>');
 
-        $this->assertTrue($document instanceof Document);
-        $this->assertTrue($document->documentElement instanceof Element);
+        $this->assertTrue($document instanceof NodeTypes\Document);
+        $this->assertTrue($document->documentElement instanceof NodeTypes\Element);
         $this->assertEquals($document->documentElement->tagName, 'xyz');
     }
 }

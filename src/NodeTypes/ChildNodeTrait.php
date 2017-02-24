@@ -1,12 +1,12 @@
 <?php
 
-namespace Stoatally\Dom;
+namespace Stoatally\Dom\NodeTypes;
 
 use DomDocument;
 use DomNode;
 
-trait SiblingNodeTrait {
-    public function after($value): DomNode
+trait ChildNodeTrait {
+    public function after($value): ChildNode
     {
         $node = $this->import($value);
 
@@ -17,17 +17,17 @@ trait SiblingNodeTrait {
         return $this->parentNode->appendChild($node);
     }
 
-    public function before($value): DomNode
+    public function before($value): ChildNode
     {
         return $this->parentNode->insertBefore($this->import($value), $this);
     }
 
-    public function replace($value): DomNode
+    public function replace($value): ChildNode
     {
         return $this->parentNode->replaceChild($this->import($value), $this);
     }
 
-    public function wrap($value): DomNode
+    public function wrap($value): ChildNode
     {
         $parent = $this->before($value);
         $parent->appendChild($this);

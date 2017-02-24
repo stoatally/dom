@@ -2,8 +2,6 @@
 
 namespace Stoatally\Dom;
 
-use DomNode;
-use DomText;
 use PHPUnit\Framework\TestCase;
 
 class DocumentTest extends TestCase

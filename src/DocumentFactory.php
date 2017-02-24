@@ -15,9 +15,9 @@ class DocumentFactory
         );
     }
 
-    public function create()
+    public function create(): NodeTypes\Document
     {
-        $document = new Document();
+        $document = new Nodes\Document();
 
         $this->importDefaultEntities($document);
         $this->setDocumentDefaults($document);
@@ -26,10 +26,10 @@ class DocumentFactory
         return $document;
     }
 
-    public function createFromUri($file)
+    public function createFromUri($file): NodeTypes\Document
     {
         if (is_file($file) === false) {
-            throw new FileNotFoundException(sprintf(
+            throw new Exceptions\FileNotFoundException(sprintf(
                 'File "%s" does not exist.',
                 $file
             ));
@@ -38,7 +38,7 @@ class DocumentFactory
         return $this->createFromString(file_get_contents($file));
     }
 
-    public function createFromString(string $xmlOrHtml)
+    public function createFromString(string $xmlOrHtml): NodeTypes\Document
     {
         $document = $this->create();
         $fragment = $document->createDocumentFragment();
@@ -50,7 +50,7 @@ class DocumentFactory
         return $document;
     }
 
-    private function importDefaultEntities(Document $document)
+    private function importDefaultEntities(NodeTypes\Document $document)
     {
         // Specify the path to the entities.dtd:
         $document->loadXML('<!DOCTYPE html SYSTEM "' . __DIR__ . '/../data/entities.dtd' . '"><html />');
@@ -64,7 +64,7 @@ class DocumentFactory
         $document->removeChild($document->firstChild);
     }
 
-    private function setDocumentDefaults(Document $document)
+    private function setDocumentDefaults(NodeTypes\Document $document)
     {
         // Sane error handling:
         $document->recover = true;
@@ -76,13 +76,15 @@ class DocumentFactory
         $document->xmlVersion = '1.0';
     }
 
-    private function setCustomNodeClasses(Document $document)
+    private function setCustomNodeClasses(NodeTypes\Document $document)
     {
-        $document->registerNodeClass('DOMAttr', __NAMESPACE__ . '\Attribute');
-        $document->registerNodeClass('DOMElement', __NAMESPACE__ . '\Element');
+        $document->registerNodeClass('DOMAttr', __NAMESPACE__ . '\Nodes\Attribute');
+        $document->registerNodeClass('DOMElement', __NAMESPACE__ . '\Nodes\Element');
+        $document->registerNodeClass('DOMDocumentFragment', __NAMESPACE__ . '\Nodes\Fragment');
+        $document->registerNodeClass('DOMText', __NAMESPACE__ . '\Nodes\Text');
     }
 
-    public function setXPathInstance(Document $document)
+    public function setXPathInstance(NodeTypes\Document $document)
     {
         $xpath = $this->xpathFactory->createFromDocument($document);
         $document->setXPath($xpath);

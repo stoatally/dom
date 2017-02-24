@@ -1,6 +1,6 @@
 <?php
 
-namespace Stoatally\Dom;
+namespace Stoatally\Dom\NodeTypes;
 
 use DomDocument;
 use DomNode;
@@ -10,7 +10,7 @@ interface Node {
 
     public function getNode(): DomNode;
 
-    public function import($value): DomNode;
+    public function import($value): Node;
 
     public function set($value): DomNode;
 

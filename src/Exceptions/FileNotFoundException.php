@@ -1,6 +1,6 @@
 <?php
 
-namespace Stoatally\Dom;
+namespace Stoatally\Dom\Exceptions;
 
 use RuntimeException;
 

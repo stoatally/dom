@@ -1,6 +1,6 @@
 <?php
 
-namespace Stoatally\Dom;
+namespace Stoatally\Dom\NodeTypes;
 
 use DomDocument;
 use DomNode;
@@ -21,17 +21,6 @@ trait IteratorTrait
         return $fragment;
     }
 
-    public function getDocument(): DomDocument
-    {
-        try {
-            return $this[0]->getDocument();
-        }
-
-        catch (OutOfBoundsException $error) {
-            throw $this->createEmptyIteratorException(__METHOD__);
-        }
-    }
-
     public function getNode(): DomNode
     {
         try {
@@ -43,15 +32,14 @@ trait IteratorTrait
         }
     }
 
-    public function import($value): DomNode
+    private function createEmptyIteratorException(string $method)
     {
-        try {
-            return $this[0]->import($value);
-        }
+        return new LogicException($method . ' called on an empty iterator.');
+    }
 
-        catch (OutOfBoundsException $error) {
-            throw $this->createEmptyIteratorException(__METHOD__);
-        }
+    public function import($value): Node
+    {
+        return $this->getDocument()->import($value);
     }
 
     public function set($value): DomNode
@@ -129,11 +117,6 @@ trait IteratorTrait
         catch (OutOfBoundsException $error) {
             throw $this->createEmptyIteratorException(__METHOD__);
         }
-    }
-
-    private function createEmptyIteratorException(string $method)
-    {
-        return new LogicException($method . ' called on an empty iterator.');
     }
 
     public function fill($items, ?Callable $callback = null): Iterator

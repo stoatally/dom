@@ -1,15 +1,16 @@
 <?php
 
-namespace Stoatally\Dom;
+namespace Stoatally\Dom\Nodes;
 
 use DomDocument;
 use DomNode;
 use DomXPath;
+use Stoatally\Dom\NodeTypes;
 
-class Document extends DomDocument implements Node, ImportableNode, QueryableNode
+class Document extends DomDocument implements NodeTypes\Document
 {
-    use NodeTrait;
-    use QueryableNodeTrait;
+    use NodeTypes\NodeTrait;
+    use NodeTypes\QueryableNodeTrait;
 
     private $xpath;
 

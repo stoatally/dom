@@ -1,22 +1,30 @@
 <?php
 
-namespace Stoatally\Dom;
+namespace Stoatally\Dom\Nodes;
 
-use ArrayIterator as NativeArrayIterator;
-use IteratorAggregate;
+use ArrayIterator;
+use DomDocument;
 use LogicException;
 use OutOfBoundsException;
+use Stoatally\Dom\NodeTypes;
 
-class ArrayIterator implements Iterator, IteratorAggregate
+class Iterator implements NodeTypes\Iterator
 {
-    use IteratorTrait;
-    use SiblingIteratorTrait;
+    use NodeTypes\IteratorTrait;
+    use NodeTypes\ChildIteratorTrait;
 
-    private $nodes;
+    protected $document;
+    protected $nodes;
 
-    public function __construct(array $nodes)
+    public function __construct(NodeTypes\Document $document, array $nodes)
     {
-        $this->nodes = new NativeArrayIterator($nodes);
+        $this->document = $document;
+        $this->nodes = new ArrayIterator($nodes);
+    }
+
+    public function getDocument(): DomDocument
+    {
+        return $this->document;
     }
 
     public function getIterator()
