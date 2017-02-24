@@ -35,6 +35,18 @@ class NodeTest extends TestCase
         $this->assertEquals('Awesome <3', $document->getDocumentElement()->getContent());
     }
 
+    public function testSetTextNodeContents()
+    {
+        $document = $this->createDocument('<a>1</a>');
+
+        $this->assertEquals('1', $document->getDocumentElement()->getContent());
+
+        $document->getDocumentElement()->getChildren()[0]->setContent('Awesome <3');
+
+        $this->assertEquals('Awesome <3', $document->getDocumentElement()->getContent());
+        $this->assertEquals("<a>Awesome &lt;3</a>\n", $document->saveHtml());
+    }
+
     public function testImportNode()
     {
         $documentA = $this->createDocument('<a/>');
