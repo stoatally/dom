@@ -2,17 +2,15 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-use DomDocument;
-use DomNode;
 use Stoatally\Dom\Nodes;
 
 trait NodeTrait {
-    public function getDocument(): DomDocument
+    public function getDocument(): Document
     {
         return $this->ownerDocument;
     }
 
-    public function getNode(): DomNode
+    public function getNode(): Node
     {
         return $this;
     }
@@ -26,11 +24,11 @@ trait NodeTrait {
         return $this->importOrCreateNode($value);
     }
 
-    private function importOrCreateNode($value): DomNode
+    private function importOrCreateNode($value): Node
     {
         $document = $this->getDocument();
 
-        if ($value instanceof DomNode) {
+        if ($value instanceof Node) {
             if ($value->ownerDocument === $document) {
                 return $value;
             }
@@ -41,7 +39,7 @@ trait NodeTrait {
         return $document->createTextNode((string) $value);
     }
 
-    public function set($value): DomNode
+    public function set($value): Node
     {
         $this->nodeValue = null;
         $this->appendChild($this->import($value));
@@ -54,12 +52,12 @@ trait NodeTrait {
         return $this->nodeValue;
     }
 
-    public function append($value): DomNode
+    public function append($value): Node
     {
         return $this->appendChild($this->import($value));
     }
 
-    public function prepend($value): DomNode
+    public function prepend($value): Node
     {
         $node = $this->import($value);
 

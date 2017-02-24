@@ -2,9 +2,6 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-use DomDocument;
-use DomNode;
-
 trait ChildNodeTrait {
     public function after($value): ChildNode
     {

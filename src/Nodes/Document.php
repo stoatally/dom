@@ -24,12 +24,12 @@ class Document extends DomDocument implements NodeTypes\Document
         $this->xpath = $xpath;
     }
 
-    public function getDocument(): DomDocument
+    public function getDocument(): NodeTypes\Document
     {
         return $this;
     }
 
-    public function getImportableNode(): DomNode
+    public function getImportableNode(): NodeTypes\Node
     {
         $fragment = $this->createDocumentFragment();
 

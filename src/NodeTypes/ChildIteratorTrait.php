@@ -2,7 +2,6 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-use DomNode;
 use OutOfBoundsException;
 use Stoatally\Dom\Nodes;
 

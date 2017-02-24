@@ -21,7 +21,7 @@ class ImportableNodeTest extends TestCase
         $document->documentElement->set(new class($document) implements NodeTypes\ImportableNode {
             use ImportableNodeTestTrait;
 
-            public function getImportableNode(): DomNode
+            public function getImportableNode(): NodeTypes\Node
             {
                 $fragment = $this->document->createDocumentFragment();
                 $fragment->appendXml('Awesome &hearts;');

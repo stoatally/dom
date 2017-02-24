@@ -2,14 +2,12 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-use DomDocument;
-use DomNode;
 use LogicException;
 use OutOfBoundsException;
 
 trait IteratorTrait
 {
-    public function getImportableNode(): DomNode
+    public function getImportableNode(): Node
     {
         $document = $this->getDocument();
         $fragment = $document->createDocumentFragment();
@@ -21,7 +19,7 @@ trait IteratorTrait
         return $fragment;
     }
 
-    public function getNode(): DomNode
+    public function getNode(): Node
     {
         try {
             return $this[0]->getNode();
@@ -42,7 +40,7 @@ trait IteratorTrait
         return $this->getDocument()->import($value);
     }
 
-    public function set($value): DomNode
+    public function set($value): Node
     {
         try {
             return $this[0]->set($value);
@@ -64,7 +62,7 @@ trait IteratorTrait
         }
     }
 
-    public function append($value): DomNode
+    public function append($value): Node
     {
         try {
             return $this[0]->append($value);
@@ -75,7 +73,7 @@ trait IteratorTrait
         }
     }
 
-    public function prepend($value): DomNode
+    public function prepend($value): Node
     {
         try {
             return $this[0]->prepend($value);

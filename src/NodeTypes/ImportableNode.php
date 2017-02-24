@@ -2,9 +2,7 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-use DomNode;
-
 interface ImportableNode
 {
-    public function getImportableNode(): DomNode;
+    public function getImportableNode(): Node;
 }

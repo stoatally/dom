@@ -74,9 +74,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $document->documentElement->append(
-            $document->createElement('b')
-        );
+        $document->documentElement->append($document->createElement('b'));
 
         $this->assertEquals("<a><b></b></a>\n", $document->saveHtml());
     }
@@ -85,9 +83,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $document->documentElement->prepend(
-            $document->createElement('b')
-        );
+        $document->documentElement->prepend($document->createElement('b'));
 
         $this->assertEquals("<a><b></b></a>\n", $document->saveHtml());
     }
@@ -96,9 +92,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a><c/></a>');
 
-        $document->documentElement->prepend(
-            $document->createElement('b')
-        );
+        $document->documentElement->prepend($document->createElement('b'));
 
         $this->assertEquals("<a><b></b><c></c></a>\n", $document->saveHtml());
     }

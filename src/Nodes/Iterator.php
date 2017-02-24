@@ -3,7 +3,6 @@
 namespace Stoatally\Dom\Nodes;
 
 use ArrayIterator;
-use DomDocument;
 use LogicException;
 use OutOfBoundsException;
 use Stoatally\Dom\NodeTypes;
@@ -22,7 +21,7 @@ class Iterator implements NodeTypes\Iterator
         $this->nodes = new ArrayIterator($nodes);
     }
 
-    public function getDocument(): DomDocument
+    public function getDocument(): NodeTypes\Document
     {
         return $this->document;
     }
