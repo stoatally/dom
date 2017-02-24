@@ -2,6 +2,7 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
+use DomNode;
 use Stoatally\Dom\Nodes;
 
 trait NodeTrait {
@@ -26,6 +27,11 @@ trait NodeTrait {
     }
 
     public function getNode(): Node
+    {
+        return $this;
+    }
+
+    public function getNative(): DomNode
     {
         return $this;
     }

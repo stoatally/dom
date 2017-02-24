@@ -2,6 +2,8 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
+use DomNode;
+
 interface Node
 {
     public function getDocument(): Document;
@@ -9,6 +11,8 @@ interface Node
     public function getChildren(): Iterator;
 
     public function getNode(): Node;
+
+    public function getNative(): DomNode;
 
     public function import($value): Node;
 

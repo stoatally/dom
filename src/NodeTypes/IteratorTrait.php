@@ -2,6 +2,7 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
+use DomNode;
 use LogicException;
 use OutOfBoundsException;
 
@@ -28,6 +29,17 @@ trait IteratorTrait
     {
         try {
             return $this[0]->getNode();
+        }
+
+        catch (OutOfBoundsException $error) {
+            throw $this->createEmptyIteratorException(__METHOD__);
+        }
+    }
+
+    public function getNative(): DomNode
+    {
+        try {
+            return $this[0]->getNative();
         }
 
         catch (OutOfBoundsException $error) {
