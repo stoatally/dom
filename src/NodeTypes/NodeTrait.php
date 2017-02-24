@@ -65,7 +65,7 @@ trait NodeTrait {
 
     public function set($value): Node
     {
-        $this->libxml->nodeValue = null;
+        $this->getLibxml()->nodeValue = null;
         $this->append($this->import($value));
 
         return $this;
@@ -73,7 +73,7 @@ trait NodeTrait {
 
     public function get(): ?string
     {
-        return $this->libxml->nodeValue;
+        return $this->getLibxml()->nodeValue;
     }
 
     public function append($value): Node
@@ -91,9 +91,11 @@ trait NodeTrait {
     {
         $node = $this->import($value);
 
-        if ($this->libxml->firstChild) {
+        if ($this->getLibxml()->firstChild) {
             $node->setLibxml(
-                $this->libxml->insertBefore($node->getLibxml(), $this->libxml->firstChild)
+                $this->getLibxml()->insertBefore(
+                    $node->getLibxml(), $this->getLibxml()->firstChild
+                )
             );
 
             return $node;

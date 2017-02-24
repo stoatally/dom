@@ -20,6 +20,6 @@ class Fragment implements NodeTypes\Fragment
 
     public function appendXml(string $xml)
     {
-        return $this->libxml->appendXml($xml);
+        return $this->getLibxml()->appendXml($xml);
     }
 }

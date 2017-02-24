@@ -7,10 +7,10 @@ trait ChildNodeTrait {
     {
         $node = $this->import($value);
 
-        if (isset($this->libxml->nextSibling)) {
+        if (isset($this->getLibxml()->nextSibling)) {
             $node->setLibxml(
                 $this->getParent()->getLibxml()->insertBefore(
-                    $node->getLibxml(), $this->libxml->nextSibling
+                    $node->getLibxml(), $this->getLibxml()->nextSibling
                 )
             );
 
@@ -26,7 +26,7 @@ trait ChildNodeTrait {
 
         $node->setLibxml(
             $this->getParent()->getLibxml()->insertBefore(
-                $node->getLibxml(), $this->libxml
+                $node->getLibxml(), $this->getLibxml()
             )
         );
 
@@ -37,7 +37,7 @@ trait ChildNodeTrait {
     {
         $this->setLibxml(
             $this->getParent()->getLibxml()->removeChild(
-                $this->libxml
+                $this->getLibxml()
             )
         );
 
@@ -50,7 +50,7 @@ trait ChildNodeTrait {
 
         $node->setLibxml(
             $this->getParent()->getLibxml()->replaceChild(
-                $node->getLibxml(), $this->libxml
+                $node->getLibxml(), $this->getLibxml()
             )
         );
 

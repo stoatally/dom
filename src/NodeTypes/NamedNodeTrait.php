@@ -6,6 +6,6 @@ trait NamedNodeTrait
 {
     public function getName(): string
     {
-        return $this->libxml->tagName;
+        return $this->getLibxml()->tagName;
     }
 }
