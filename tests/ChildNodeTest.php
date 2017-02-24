@@ -189,6 +189,38 @@ class ChildNodeTest extends TestCase
         $this->assertEquals("<a></a>\n", $document->saveHtml());
     }
 
+    public function testRemoveNode()
+    {
+        $document = $this->createDocument('<a/>');
+
+        $results = $document->getDocumentElement()->remove();
+
+        $this->assertTrue($results instanceof NodeTypes\Element);
+        $this->assertEquals("\n", $document->saveHtml());
+    }
+
+    public function testRemoveIterator()
+    {
+        list($document, $iterator) = $this->createIterator('<a/><b/><c/>');
+
+        $results = $iterator->remove();
+
+        $this->assertTrue($results instanceof NodeTypes\ChildIterator);
+        $this->assertEquals(3, count($results));
+        $this->assertEquals("\n", $document->saveHtml());
+    }
+
+    public function testRemoveIteratorWhenEmpty()
+    {
+        list($document, $iterator) = $this->createEmptyIterator();
+
+        $results = $iterator->remove();
+
+        $this->assertTrue($results instanceof NodeTypes\ChildIterator);
+        $this->assertEquals(0, count($results));
+        $this->assertEquals("<a></a>\n", $document->saveHtml());
+    }
+
     public function testReplaceNode()
     {
         $document = $this->createDocument('<a/>');

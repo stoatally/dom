@@ -36,17 +36,6 @@ trait IteratorTrait
         }
     }
 
-    public function getLibxml(): DomNode
-    {
-        try {
-            return $this[0]->getLibxml();
-        }
-
-        catch (OutOfBoundsException $error) {
-            throw $this->createEmptyIteratorException(__METHOD__);
-        }
-    }
-
     private function createEmptyIteratorException(string $method)
     {
         return new LogicException($method . ' called on an empty iterator.');

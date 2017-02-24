@@ -98,6 +98,13 @@ class IteratorTest extends TestCase
         $iterator->getNode();
     }
 
+    public function testGetChildren()
+    {
+        list($document, $iterator) = $this->create('<a/><b/><c/>');
+
+        $this->assertEquals($iterator, $iterator->getChildren());
+    }
+
     public function testSetContents()
     {
         list($document, $iterator) = $this->create('<a/>');
