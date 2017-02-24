@@ -14,7 +14,6 @@ class XPathFactoryTest extends TestCase
         $xpathFactory = new XPathFactory();
         $xpath = $xpathFactory->createFromDocument($document);
 
-        $this->assertEquals($document, $xpath->document);
         $this->assertTrue($xpath->evaluate('boolean(/a)'));
     }
 
@@ -26,7 +25,6 @@ class XPathFactoryTest extends TestCase
         $xpathFactory = new XPathFactory('z');
         $xpath = $xpathFactory->createFromDocument($document);
 
-        $this->assertEquals($document, $xpath->document);
         $this->assertTrue($xpath->evaluate('boolean(/z:a)'));
         $this->assertFalse($xpath->evaluate('boolean(/a)'));
     }

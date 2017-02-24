@@ -7,21 +7,37 @@ use DomNode;
 use DomXPath;
 use Stoatally\Dom\NodeTypes;
 
-class Document extends DomDocument implements NodeTypes\Document
+class Document implements NodeTypes\Document
 {
+    use NodeTypes\LibxmlNodeTrait;
     use NodeTypes\NodeTrait;
     use NodeTypes\QueryableNodeTrait;
 
     private $xpath;
 
-    public function getXPath(): DomXPath
+    public function __construct(DomDocument $libxml)
     {
-        return $this->xpath;
+        $this->setLibxml($libxml);
     }
 
-    public function setXPath(DomXPath $xpath)
+    public function createAttribute($name): NodeTypes\Attribute
     {
-        $this->xpath = $xpath;
+        return new Attribute($this->getLibxml()->createAttribute($name));
+    }
+
+    public function createElement($name): NodeTypes\Element
+    {
+        return new Element($this->getLibxml()->createElement($name));
+    }
+
+    public function createDocumentFragment(): NodeTypes\Fragment
+    {
+        return new Fragment($this->getLibxml()->createDocumentFragment());
+    }
+
+    public function createTextNode($text): NodeTypes\Text
+    {
+        return new Text($this->getLibxml()->createTextNode($text));
     }
 
     public function getDocument(): NodeTypes\Document
@@ -31,7 +47,7 @@ class Document extends DomDocument implements NodeTypes\Document
 
     public function getDocumentElement(): NodeTypes\Element
     {
-        return $this->documentElement;
+        return $this->getLibxml()->documentElement->native;
     }
 
     public function getImportableNode(): NodeTypes\Node
@@ -39,9 +55,24 @@ class Document extends DomDocument implements NodeTypes\Document
         $fragment = $this->createDocumentFragment();
 
         foreach ($this->getChildren() as $node) {
-            $fragment->appendChild($node->cloneNode(true));
+            $fragment->append(clone $node);
         }
 
         return $fragment;
+    }
+
+    public function saveHtml(): string
+    {
+        return $this->getLibxml()->saveHtml();
+    }
+
+    public function getXPath(): DomXPath
+    {
+        return $this->xpath;
+    }
+
+    public function setXPath(DomXPath $xpath)
+    {
+        $this->xpath = $xpath;
     }
 }

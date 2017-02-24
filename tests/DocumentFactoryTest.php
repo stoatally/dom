@@ -12,8 +12,6 @@ class DocumentFactoryTest extends TestCase
         $document = $documentFactory->create();
 
         $this->assertTrue($document instanceof NodeTypes\Document);
-        $this->assertEquals($document->encoding, 'UTF-8');
-        $this->assertEquals($document->xmlVersion, '1.0');
     }
 
     public function testDocumentHasCorrectNodeClasses()
@@ -34,7 +32,7 @@ class DocumentFactoryTest extends TestCase
 
         $this->assertTrue($document instanceof NodeTypes\Document);
         $this->assertTrue($document->getDocumentElement() instanceof NodeTypes\Element);
-        $this->assertEquals($document->getDocumentElement()->tagName, 'xyz');
+        $this->assertEquals($document->getDocumentElement()->getName(), 'xyz');
     }
 
     public function testCreateDocumentFromIncorrectUri()
@@ -52,6 +50,6 @@ class DocumentFactoryTest extends TestCase
 
         $this->assertTrue($document instanceof NodeTypes\Document);
         $this->assertTrue($document->getDocumentElement() instanceof NodeTypes\Element);
-        $this->assertEquals($document->getDocumentElement()->tagName, 'xyz');
+        $this->assertEquals($document->getDocumentElement()->getName(), 'xyz');
     }
 }

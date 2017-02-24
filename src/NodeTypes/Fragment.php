@@ -2,6 +2,6 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-interface Fragment extends Node, ChildNode, QueryableNode
+interface Fragment extends LibxmlNode, ChildNode, Node, ParentNode, QueryableNode
 {
 }

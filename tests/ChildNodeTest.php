@@ -75,11 +75,12 @@ class ChildNodeTest extends TestCase
     {
         $document = $this->createDocument('<a><b/></a>');
 
-        $results = $document->getChildren()->getChildren();
+        $results = $document->getChildren();
 
         $this->assertTrue($results instanceof NodeTypes\ChildIterator);
         $this->assertTrue($results->hasParent());
-        $this->assertEquals($document->getDocumentElement(), $results->getParent());
+
+        $this->assertEquals($document, $results->getParent());
     }
 
     public function testAppendSiblingAtTheEnd()
@@ -206,7 +207,6 @@ class ChildNodeTest extends TestCase
 
         $this->assertTrue($results instanceof NodeTypes\ChildIterator);
         $this->assertEquals(1, count($results));
-        $this->assertEquals($document->getDocumentElement(), $results[0]);
         $this->assertEquals("<d></d>\n", $document->saveHtml());
     }
 

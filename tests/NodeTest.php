@@ -19,11 +19,11 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $this->assertEquals(null, $document->getDocumentElement()->nodeValue);
+        $this->assertEquals(null, $document->getDocumentElement()->get());
 
         $document->getDocumentElement()->set('Awesome <3');
 
-        $this->assertEquals('Awesome <3', $document->getDocumentElement()->nodeValue);
+        $this->assertEquals('Awesome <3', $document->getDocumentElement()->get());
         $this->assertEquals("<a>Awesome &lt;3</a>\n", $document->saveHtml());
     }
 
@@ -31,7 +31,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a>Awesome &lt;3</a>');
 
-        $this->assertEquals('Awesome <3', $document->getDocumentElement()->nodeValue);
+        $this->assertEquals('Awesome <3', $document->getDocumentElement()->get());
         $this->assertEquals('Awesome <3', $document->getDocumentElement()->get());
     }
 
@@ -41,7 +41,7 @@ class NodeTest extends TestCase
         $documentB = $this->createDocument('<b/>');
 
         $result = $documentA->import($documentB->getDocumentElement());
-        $documentA->appendChild($result);
+        $documentA->append($result);
 
         $this->assertEquals($documentA, $result->getDocument());
         $this->assertEquals("<a></a><b></b>\n", $documentA->saveHtml());
@@ -52,10 +52,10 @@ class NodeTest extends TestCase
         $document = $this->createDocument('<a/>');
 
         $result = $document->import('a');
-        $document->appendChild($result);
+        $document->append($result);
 
-        $this->assertTrue($result instanceof DomText);
-        $this->assertEquals('a', $result->nodeValue);
+        $this->assertTrue($result instanceof NodeTypes\Text);
+        $this->assertEquals('a', $result->get());
         $this->assertEquals("<a></a>a\n", $document->saveHtml());
     }
 
@@ -64,7 +64,7 @@ class NodeTest extends TestCase
         $document = $this->createDocument('<a/>');
 
         $result = $document->import($document->getDocumentElement());
-        $document->appendChild($result);
+        $document->append($result);
 
         $this->assertEquals($document, $result->getDocument());
         $this->assertEquals("<a></a>\n", $document->saveHtml());

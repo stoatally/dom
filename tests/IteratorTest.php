@@ -41,15 +41,15 @@ class IteratorTest extends TestCase
     {
         list($document, $iterator) = $this->create('<a/><b/><c/>');
 
-        $this->assertEquals('a', $iterator[0]->tagName);
+        $this->assertEquals('a', $iterator[0]->getName());
     }
 
     public function testAccessLastItem()
     {
         list($document, $iterator) = $this->create('<a/><b/><c/>');
 
-        $this->assertEquals('c', $iterator[2]->tagName);
-        $this->assertEquals('c', $iterator[-1]->tagName);
+        $this->assertEquals('c', $iterator[2]->getName());
+        $this->assertEquals('c', $iterator[-1]->getName());
     }
 
     public function testAccessOutOfBoundsItem()
@@ -87,7 +87,7 @@ class IteratorTest extends TestCase
     {
         list($document, $iterator) = $this->create('<a/><b/><c/>');
 
-        $this->assertEquals($document->firstChild, $iterator->getNode());
+        $this->assertEquals($document->getChildren()[0], $iterator->getNode());
     }
 
     public function testGetNodeWhenEmpty()
@@ -104,7 +104,7 @@ class IteratorTest extends TestCase
 
         $iterator->set('1');
 
-        $this->assertEquals('1', $iterator[0]->nodeValue);
+        $this->assertEquals('1', $iterator[0]->get());
     }
 
     public function testSetContentsWhenEmpty()
@@ -168,9 +168,7 @@ class IteratorTest extends TestCase
     {
         list($document, $iterator) = $this->create('<a/>');
 
-        $iterator->append(
-            $document->createElement('b')
-        );
+        $iterator->append($document->createElement('b'));
 
         $this->assertEquals("<a><b></b></a>\n", $document->saveHtml());
     }
@@ -187,9 +185,7 @@ class IteratorTest extends TestCase
     {
         list($document, $iterator) = $this->create('<a/>');
 
-        $iterator->prepend(
-            $document->createElement('b')
-        );
+        $iterator->prepend($document->createElement('b'));
 
         $this->assertEquals("<a><b></b></a>\n", $document->saveHtml());
     }
@@ -199,9 +195,7 @@ class IteratorTest extends TestCase
         list($document, $iterator) = $this->createEmpty();
 
         $this->expectException(LogicException::class);
-        $iterator->prepend(
-            $document->createElement('b')
-        );
+        $iterator->prepend($document->createElement('b'));
     }
 
     public function testDuplicateSelf()

@@ -2,6 +2,6 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-interface Element extends Node, ChildNode, QueryableNode
+interface Element extends LibxmlNode, ChildNode, NamedNode, Node, ParentNode, QueryableNode
 {
 }

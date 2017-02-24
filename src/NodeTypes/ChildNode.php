@@ -12,6 +12,8 @@ interface ChildNode
 
     public function before($value): ChildNode;
 
+    public function remove(): ChildNode;
+
     public function replace($value): ChildNode;
 
     public function wrap($value): ChildNode;

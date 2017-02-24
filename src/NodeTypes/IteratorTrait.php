@@ -14,7 +14,7 @@ trait IteratorTrait
         $fragment = $document->createDocumentFragment();
 
         foreach ($this as $node) {
-            $fragment->appendChild($node->cloneNode(true));
+            $fragment->append(clone $node);
         }
 
         return $fragment;
@@ -36,10 +36,10 @@ trait IteratorTrait
         }
     }
 
-    public function getNative(): DomNode
+    public function getLibxml(): DomNode
     {
         try {
-            return $this[0]->getNative();
+            return $this[0]->getLibxml();
         }
 
         catch (OutOfBoundsException $error) {

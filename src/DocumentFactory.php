@@ -2,6 +2,11 @@
 
 namespace Stoatally\Dom;
 
+use DomDocument;
+use DomAttr;
+use DomElement;
+use DomText;
+
 class DocumentFactory
 {
     private $xpathFactory;
@@ -17,11 +22,11 @@ class DocumentFactory
 
     public function create(): NodeTypes\Document
     {
-        $document = new Nodes\Document();
+        $libxml = new DomDocument();
+        $document = new Nodes\Document($libxml);
 
-        $this->importDefaultEntities($document);
-        $this->setDocumentDefaults($document);
-        $this->setCustomNodeClasses($document);
+        $this->importDefaultEntities($libxml);
+        $this->setDocumentDefaults($libxml);
 
         return $document;
     }
@@ -43,14 +48,15 @@ class DocumentFactory
         $document = $this->create();
         $fragment = $document->createDocumentFragment();
         $fragment->appendXml($xmlOrHtml);
-        $document->appendChild($fragment);
+        $document->append($fragment);
 
         $this->setXPathInstance($document);
+        $this->translateLibxmlToNative($document);
 
         return $document;
     }
 
-    private function importDefaultEntities(NodeTypes\Document $document)
+    private function importDefaultEntities(DomDocument $document)
     {
         // Specify the path to the entities.dtd:
         $document->loadXML('<!DOCTYPE html SYSTEM "' . __DIR__ . '/../data/entities.dtd' . '"><html />');
@@ -64,7 +70,7 @@ class DocumentFactory
         $document->removeChild($document->firstChild);
     }
 
-    private function setDocumentDefaults(NodeTypes\Document $document)
+    private function setDocumentDefaults(DomDocument $document)
     {
         // Sane error handling:
         $document->recover = true;
@@ -76,18 +82,15 @@ class DocumentFactory
         $document->xmlVersion = '1.0';
     }
 
-    private function setCustomNodeClasses(NodeTypes\Document $document)
-    {
-        $document->registerNodeClass('DOMAttr', __NAMESPACE__ . '\Nodes\Attribute');
-        $document->registerNodeClass('DOMDocument', __NAMESPACE__ . '\Nodes\Document');
-        $document->registerNodeClass('DOMElement', __NAMESPACE__ . '\Nodes\Element');
-        $document->registerNodeClass('DOMDocumentFragment', __NAMESPACE__ . '\Nodes\Fragment');
-        $document->registerNodeClass('DOMText', __NAMESPACE__ . '\Nodes\Text');
-    }
-
-    public function setXPathInstance(NodeTypes\Document $document)
+    private function setXPathInstance(NodeTypes\Document $document)
     {
         $xpath = $this->xpathFactory->createFromDocument($document);
         $document->setXPath($xpath);
+    }
+
+    private function translateLibxmlToNative(NodeTypes\Document $document)
+    {
+        $translator = new LibxmlToNativeTranslator();;
+        $translator($document->getLibxml());
     }
 }

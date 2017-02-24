@@ -2,6 +2,6 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-interface Attribute
+interface Attribute extends LibxmlNode, NamedNode
 {
 }

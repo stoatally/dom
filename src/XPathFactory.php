@@ -15,7 +15,7 @@ class XPathFactory
 
     public function createFromDocument(NodeTypes\Document $document)
     {
-        $xpath = new DomXPath($document);
+        $xpath = new DomXPath($document->getLibxml());
 
         $this->initialiseXPathNamespaces($xpath);
 

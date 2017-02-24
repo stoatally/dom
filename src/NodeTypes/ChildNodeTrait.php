@@ -7,27 +7,60 @@ trait ChildNodeTrait {
     {
         $node = $this->import($value);
 
-        if (isset($this->nextSibling)) {
-            return $this->getParent()->insertBefore($node, $this->nextSibling);
+        if (isset($this->libxml->nextSibling)) {
+            $node->setLibxml(
+                $this->getParent()->getLibxml()->insertBefore(
+                    $node->getLibxml(), $this->libxml->nextSibling
+                )
+            );
+
+            return $node;
         }
 
-        return $this->getParent()->appendChild($node);
+        return $this->getParent()->append($node);
     }
 
     public function before($value): ChildNode
     {
-        return $this->getParent()->insertBefore($this->import($value), $this);
+        $node = $this->import($value);
+
+        $node->setLibxml(
+            $this->getParent()->getLibxml()->insertBefore(
+                $node->getLibxml(), $this->libxml
+            )
+        );
+
+        return $node;
+    }
+
+    public function remove(): ChildNode
+    {
+        $this->setLibxml(
+            $this->getParent()->getLibxml()->removeChild(
+                $this->libxml
+            )
+        );
+
+        return $this;
     }
 
     public function replace($value): ChildNode
     {
-        return $this->getParent()->replaceChild($this->import($value), $this);
+        $node = $this->import($value);
+
+        $node->setLibxml(
+            $this->getParent()->getLibxml()->replaceChild(
+                $node->getLibxml(), $this->libxml
+            )
+        );
+
+        return $node;
     }
 
     public function wrap($value): ChildNode
     {
         $parent = $this->before($value);
-        $parent->appendChild($this);
+        $parent->append($this);
 
         return $parent;
     }

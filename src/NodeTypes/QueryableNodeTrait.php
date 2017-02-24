@@ -18,7 +18,12 @@ trait QueryableNodeTrait
     {
         $xpath = $this->getDocument()->getXPath();
         $element = $this->getNode();
+        $results = [];
 
-        return new Nodes\Iterator($this->getDocument(), iterator_to_array($xpath->query($query, $element)));
+        foreach ($xpath->query($query, $element->getLibxml()) as $result) {
+            $results[] = $result->native;
+        }
+
+        return new Nodes\Iterator($this->getDocument(), $results);
     }
 }

@@ -8,30 +8,31 @@ use Stoatally\Dom\Nodes;
 trait NodeTrait {
     public function getDocument(): Document
     {
-        return $this->ownerDocument;
+        return $this->libxml->ownerDocument->native;
     }
 
     public function getParent(): Node
     {
-        return $this->parentNode;
+        return $this->libxml->parentNode->native;
     }
 
     public function hasParent(): bool
     {
-        return isset($this->parentNode);
+        return isset($this->libxml->parentNode);
     }
 
     public function getChildren(): Iterator
     {
-        return new Nodes\Iterator($this->getDocument(), iterator_to_array($this->childNodes));
+        $results = [];
+
+        foreach ($this->libxml->childNodes as $child) {
+            $results[] = $child->native;
+        }
+
+        return new Nodes\Iterator($this->getDocument(), $results);
     }
 
     public function getNode(): Node
-    {
-        return $this;
-    }
-
-    public function getNative(): DomNode
     {
         return $this;
     }
@@ -50,11 +51,13 @@ trait NodeTrait {
         $document = $this->getDocument();
 
         if ($value instanceof Node) {
-            if ($value->getDocument() === $document) {
-                return $value;
+            if ($value->getDocument()->getLibxml() !== $document->getLibxml()) {
+                $value->setLibxml(
+                    $document->getLibxml()->importNode($value->getLibxml(), true)
+                );
             }
 
-            return $document->importNode($value, true);
+            return $value;
         }
 
         return $document->createTextNode((string) $value);
@@ -62,31 +65,41 @@ trait NodeTrait {
 
     public function set($value): Node
     {
-        $this->nodeValue = null;
-        $this->appendChild($this->import($value));
+        $this->libxml->nodeValue = null;
+        $this->append($this->import($value));
 
         return $this;
     }
 
     public function get(): ?string
     {
-        return $this->nodeValue;
+        return $this->libxml->nodeValue;
     }
 
     public function append($value): Node
     {
-        return $this->appendChild($this->import($value));
+        $node = $this->import($value);
+
+        $node->setLibxml(
+            $this->getLibxml()->appendChild($node->getLibxml())
+        );
+
+        return $node;
     }
 
     public function prepend($value): Node
     {
         $node = $this->import($value);
 
-        if ($this->firstChild) {
-            return $this->insertBefore($node, $this->firstChild);
+        if ($this->libxml->firstChild) {
+            $node->setLibxml(
+                $this->libxml->insertBefore($node->getLibxml(), $this->libxml->firstChild)
+            );
+
+            return $node;
         }
 
-        return $this->appendChild($node);
+        return $this->append($node);
     }
 
     public function duplicate(int $times): Iterator
@@ -99,7 +112,7 @@ trait NodeTrait {
         $item = $this;
 
         foreach (range(1, $times - 1) as $index) {
-            $clone = $results[] = $item->cloneNode(true);
+            $clone = $results[] = clone $item;
 
             if ($item->getParent()) {
                 $item->after($clone);

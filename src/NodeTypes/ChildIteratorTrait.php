@@ -73,7 +73,7 @@ trait ChildIteratorTrait
 
         foreach ($this as $index => $child) {
             if ($index > 0) {
-                $new = $node->cloneNode(true);
+                $new = clone $node;
                 $child->before($new);
                 $results[] = $new;
             }
@@ -82,6 +82,15 @@ trait ChildIteratorTrait
         }
 
         return new Nodes\Iterator($this->getDocument(), $results);
+    }
+
+    public function remove(): ChildNode
+    {
+        foreach ($this as $child) {
+            $child->remove();
+        }
+
+        return $this;
     }
 
     public function replace($value): ChildNode
@@ -94,8 +103,8 @@ trait ChildIteratorTrait
                 $child->replace($node);
             }
 
-            else if ($child->parentNode) {
-                $child->parentNode->removeChild($child);
+            else if ($child->hasParent()) {
+                $child->getParent()->getLibxml()->removeChild($child->getLibxml());
             }
         }
 
@@ -112,7 +121,7 @@ trait ChildIteratorTrait
                 $this[0]->before($parent);
             }
 
-            $parent->appendChild($child);
+            $parent->append($child);
         }
 
         return new Nodes\Iterator($this->getDocument(), $results);
