@@ -122,11 +122,30 @@ class IteratorTest extends TestCase
         $iterator->setContent('1');
     }
 
+    public function testSetRawContents()
+    {
+        list($document, $iterator) = $this->create('<a/>');
+
+        $iterator->setRawContent('Awesome &lt;3');
+
+        $this->assertEquals('Awesome <3', $iterator[0]->getContent());
+        $this->assertEquals("<a>Awesome &lt;3</a>\n", $document->saveHtml());
+    }
+
+    public function testSetRawContentsWhenEmpty()
+    {
+        list($document, $iterator) = $this->createEmpty();
+
+        $this->expectException(LogicException::class);
+        $iterator->setRawContent('Awesome &lt;3');
+    }
+
     public function testGetContents()
     {
         list($document, $iterator) = $this->create('<a>1</a>');
 
         $this->assertEquals('1', $iterator->getContent());
+        $this->assertEquals("<a>1</a>\n", $document->saveHtml());
     }
 
     public function testGetContentsWhenEmpty()
@@ -135,6 +154,22 @@ class IteratorTest extends TestCase
 
         $this->expectException(LogicException::class);
         $iterator->getContent();
+    }
+
+    public function testGetRawContents()
+    {
+        list($document, $iterator) = $this->create('<a>Awesome &lt;3</a>');
+
+        $this->assertEquals('Awesome &lt;3', $iterator->getRawContent());
+        $this->assertEquals("<a>Awesome &lt;3</a>\n", $document->saveHtml());
+    }
+
+    public function testGetRawContentsWhenEmpty()
+    {
+        list($document, $iterator) = $this->createEmpty();
+
+        $this->expectException(LogicException::class);
+        $iterator->getRawContent();
     }
 
     public function testImportNode()

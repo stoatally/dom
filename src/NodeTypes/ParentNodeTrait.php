@@ -31,6 +31,28 @@ trait ParentNodeTrait
         return $this->getLibxml()->nodeValue;
     }
 
+    public function setRawContent(string $xmlOrHtml): Node
+    {
+        $fragment = $this->getDocument()->createDocumentFragment();
+        $fragment->appendXml($xmlOrHtml);
+
+        $this->getLibxml()->nodeValue = null;
+        $this->appendChild($fragment);
+
+        return $this;
+    }
+
+    public function getRawContent(): string
+    {
+        $xmlOrHtml = null;
+
+        foreach ($this->getLibxml()->childNodes as $child) {
+            $xmlOrHtml .= $this->getDocument()->getLibxml()->saveXML($child);
+        }
+
+        return $xmlOrHtml;
+    }
+
     public function appendChild($value): Node
     {
         $node = $this->importNode($value);

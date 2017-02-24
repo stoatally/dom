@@ -68,6 +68,28 @@ trait IteratorTrait
         }
     }
 
+    public function setRawContent(string $xmlOrHtml): Node
+    {
+        try {
+            return $this[0]->setRawContent($xmlOrHtml);
+        }
+
+        catch (OutOfBoundsException $error) {
+            throw $this->createEmptyIteratorException(__METHOD__);
+        }
+    }
+
+    public function getRawContent(): string
+    {
+        try {
+            return $this[0]->getRawContent();
+        }
+
+        catch (OutOfBoundsException $error) {
+            throw $this->createEmptyIteratorException(__METHOD__);
+        }
+    }
+
     public function appendChild($value): Node
     {
         try {
