@@ -19,11 +19,11 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $this->assertEquals(null, $document->documentElement->nodeValue);
+        $this->assertEquals(null, $document->getDocumentElement()->nodeValue);
 
-        $document->documentElement->set('Awesome <3');
+        $document->getDocumentElement()->set('Awesome <3');
 
-        $this->assertEquals('Awesome <3', $document->documentElement->nodeValue);
+        $this->assertEquals('Awesome <3', $document->getDocumentElement()->nodeValue);
         $this->assertEquals("<a>Awesome &lt;3</a>\n", $document->saveHtml());
     }
 
@@ -31,8 +31,8 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a>Awesome &lt;3</a>');
 
-        $this->assertEquals('Awesome <3', $document->documentElement->nodeValue);
-        $this->assertEquals('Awesome <3', $document->documentElement->get());
+        $this->assertEquals('Awesome <3', $document->getDocumentElement()->nodeValue);
+        $this->assertEquals('Awesome <3', $document->getDocumentElement()->get());
     }
 
     public function testImportNode()
@@ -40,10 +40,10 @@ class NodeTest extends TestCase
         $documentA = $this->createDocument('<a/>');
         $documentB = $this->createDocument('<b/>');
 
-        $result = $documentA->import($documentB->documentElement);
+        $result = $documentA->import($documentB->getDocumentElement());
         $documentA->appendChild($result);
 
-        $this->assertEquals($documentA, $result->ownerDocument);
+        $this->assertEquals($documentA, $result->getDocument());
         $this->assertEquals("<a></a><b></b>\n", $documentA->saveHtml());
     }
 
@@ -63,10 +63,10 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $result = $document->import($document->documentElement);
+        $result = $document->import($document->getDocumentElement());
         $document->appendChild($result);
 
-        $this->assertEquals($document, $result->ownerDocument);
+        $this->assertEquals($document, $result->getDocument());
         $this->assertEquals("<a></a>\n", $document->saveHtml());
     }
 
@@ -74,7 +74,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $document->documentElement->append($document->createElement('b'));
+        $document->getDocumentElement()->append($document->createElement('b'));
 
         $this->assertEquals("<a><b></b></a>\n", $document->saveHtml());
     }
@@ -83,7 +83,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $document->documentElement->prepend($document->createElement('b'));
+        $document->getDocumentElement()->prepend($document->createElement('b'));
 
         $this->assertEquals("<a><b></b></a>\n", $document->saveHtml());
     }
@@ -92,7 +92,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a><c/></a>');
 
-        $document->documentElement->prepend($document->createElement('b'));
+        $document->getDocumentElement()->prepend($document->createElement('b'));
 
         $this->assertEquals("<a><b></b><c></c></a>\n", $document->saveHtml());
     }
@@ -101,7 +101,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $results = $document->documentElement->duplicate(3);
+        $results = $document->getDocumentElement()->duplicate(3);
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(3, count($results));
@@ -112,7 +112,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $results = $document->documentElement->duplicate(1);
+        $results = $document->getDocumentElement()->duplicate(1);
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(1, count($results));
@@ -123,7 +123,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $results = $document->documentElement->repeat([1, 2, 3]);
+        $results = $document->getDocumentElement()->repeat([1, 2, 3]);
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(3, count($results));
@@ -134,7 +134,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $results = $document->documentElement->repeat([1, 2, 3], function($node, $item) {
+        $results = $document->getDocumentElement()->repeat([1, 2, 3], function($node, $item) {
             $node->set($item * 2);
         });
 

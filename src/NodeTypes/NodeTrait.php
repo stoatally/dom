@@ -10,6 +10,21 @@ trait NodeTrait {
         return $this->ownerDocument;
     }
 
+    public function getParent(): Node
+    {
+        return $this->parentNode;
+    }
+
+    public function hasParent(): bool
+    {
+        return isset($this->parentNode);
+    }
+
+    public function getChildren(): Iterator
+    {
+        return new Nodes\Iterator($this->getDocument(), iterator_to_array($this->childNodes));
+    }
+
     public function getNode(): Node
     {
         return $this;
@@ -29,7 +44,7 @@ trait NodeTrait {
         $document = $this->getDocument();
 
         if ($value instanceof Node) {
-            if ($value->ownerDocument === $document) {
+            if ($value->getDocument() === $document) {
                 return $value;
             }
 
@@ -80,7 +95,7 @@ trait NodeTrait {
         foreach (range(1, $times - 1) as $index) {
             $clone = $results[] = $item->cloneNode(true);
 
-            if ($item->parentNode) {
+            if ($item->getParent()) {
                 $item->after($clone);
                 $item = $clone;
             }

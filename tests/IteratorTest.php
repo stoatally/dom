@@ -14,7 +14,7 @@ class IteratorTest extends TestCase
         $document = $documentFactory->createFromString($html);
         $items = [];
 
-        foreach ($document->childNodes as $child) {
+        foreach ($document->getChildren() as $child) {
             $items[] = $child;
         }
 

@@ -33,8 +33,8 @@ class DocumentFactoryTest extends TestCase
         $document = $documentFactory->createFromUri(__DIR__ . '/../data/test.xml');
 
         $this->assertTrue($document instanceof NodeTypes\Document);
-        $this->assertTrue($document->documentElement instanceof NodeTypes\Element);
-        $this->assertEquals($document->documentElement->tagName, 'xyz');
+        $this->assertTrue($document->getDocumentElement() instanceof NodeTypes\Element);
+        $this->assertEquals($document->getDocumentElement()->tagName, 'xyz');
     }
 
     public function testCreateDocumentFromIncorrectUri()
@@ -51,7 +51,7 @@ class DocumentFactoryTest extends TestCase
         $document = $documentFactory->createFromString('<xyz/>');
 
         $this->assertTrue($document instanceof NodeTypes\Document);
-        $this->assertTrue($document->documentElement instanceof NodeTypes\Element);
-        $this->assertEquals($document->documentElement->tagName, 'xyz');
+        $this->assertTrue($document->getDocumentElement() instanceof NodeTypes\Element);
+        $this->assertEquals($document->getDocumentElement()->tagName, 'xyz');
     }
 }

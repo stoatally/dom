@@ -7,6 +7,28 @@ use Stoatally\Dom\Nodes;
 
 trait ChildIteratorTrait
 {
+    public function getParent(): Node
+    {
+        try {
+            return $this[0]->getParent();
+        }
+
+        catch (OutOfBoundsException $error) {
+            throw $this->createEmptyIteratorException(__METHOD__);
+        }
+    }
+
+    public function hasParent(): bool
+    {
+        try {
+            return $this[0]->hasParent();
+        }
+
+        catch (OutOfBoundsException $error) {
+            return false;
+        }
+    }
+
     public function after($value): ChildNode
     {
         $node = $this->import($value);

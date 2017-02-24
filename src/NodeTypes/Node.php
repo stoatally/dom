@@ -2,8 +2,11 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-interface Node {
+interface Node
+{
     public function getDocument(): Document;
+
+    public function getChildren(): Iterator;
 
     public function getNode(): Node;
 

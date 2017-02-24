@@ -8,20 +8,20 @@ trait ChildNodeTrait {
         $node = $this->import($value);
 
         if (isset($this->nextSibling)) {
-            return $this->parentNode->insertBefore($node, $this->nextSibling);
+            return $this->getParent()->insertBefore($node, $this->nextSibling);
         }
 
-        return $this->parentNode->appendChild($node);
+        return $this->getParent()->appendChild($node);
     }
 
     public function before($value): ChildNode
     {
-        return $this->parentNode->insertBefore($this->import($value), $this);
+        return $this->getParent()->insertBefore($this->import($value), $this);
     }
 
     public function replace($value): ChildNode
     {
-        return $this->parentNode->replaceChild($this->import($value), $this);
+        return $this->getParent()->replaceChild($this->import($value), $this);
     }
 
     public function wrap($value): ChildNode

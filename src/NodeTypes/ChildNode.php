@@ -2,9 +2,12 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-use DomNode;
+interface ChildNode
+{
+    public function getParent(): Node;
 
-interface ChildNode {
+    public function hasParent(): bool;
+
     public function after($value): ChildNode;
 
     public function before($value): ChildNode;

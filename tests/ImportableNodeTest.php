@@ -18,7 +18,7 @@ class ImportableNodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $document->documentElement->set(new class($document) implements NodeTypes\ImportableNode {
+        $document->getDocumentElement()->set(new class($document) implements NodeTypes\ImportableNode {
             use ImportableNodeTestTrait;
 
             public function getImportableNode(): NodeTypes\Node
@@ -40,7 +40,7 @@ class ImportableNodeTest extends TestCase
         $result = $document->import($this->createDocument('<b/>'));
         $document->appendChild($result);
 
-        $this->assertEquals($document, $result->ownerDocument);
+        $this->assertEquals($document, $result->getDocument());
         $this->assertEquals("<a></a><b></b>\n", $document->saveHtml());
     }
 }

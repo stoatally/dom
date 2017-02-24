@@ -29,11 +29,16 @@ class Document extends DomDocument implements NodeTypes\Document
         return $this;
     }
 
+    public function getDocumentElement(): NodeTypes\Element
+    {
+        return $this->documentElement;
+    }
+
     public function getImportableNode(): NodeTypes\Node
     {
         $fragment = $this->createDocumentFragment();
 
-        foreach ($this->childNodes as $node) {
+        foreach ($this->getChildren() as $node) {
             $fragment->appendChild($node->cloneNode(true));
         }
 

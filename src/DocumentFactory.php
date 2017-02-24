@@ -79,6 +79,7 @@ class DocumentFactory
     private function setCustomNodeClasses(NodeTypes\Document $document)
     {
         $document->registerNodeClass('DOMAttr', __NAMESPACE__ . '\Nodes\Attribute');
+        $document->registerNodeClass('DOMDocument', __NAMESPACE__ . '\Nodes\Document');
         $document->registerNodeClass('DOMElement', __NAMESPACE__ . '\Nodes\Element');
         $document->registerNodeClass('DOMDocumentFragment', __NAMESPACE__ . '\Nodes\Fragment');
         $document->registerNodeClass('DOMText', __NAMESPACE__ . '\Nodes\Text');

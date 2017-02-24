@@ -19,6 +19,11 @@ trait IteratorTrait
         return $fragment;
     }
 
+    public function getChildren(): Iterator
+    {
+        return $this;
+    }
+
     public function getNode(): Node
     {
         try {
