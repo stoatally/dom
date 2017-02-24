@@ -8,24 +8,24 @@ use Stoatally\Dom\Nodes;
 trait NodeTrait {
     public function getDocument(): Document
     {
-        return $this->libxml->ownerDocument->native;
+        return $this->getLibxml()->ownerDocument->native;
     }
 
     public function getParent(): Node
     {
-        return $this->libxml->parentNode->native;
+        return $this->getLibxml()->parentNode->native;
     }
 
     public function hasParent(): bool
     {
-        return isset($this->libxml->parentNode);
+        return isset($this->getLibxml()->parentNode);
     }
 
     public function getChildren(): Iterator
     {
         $results = [];
 
-        foreach ($this->libxml->childNodes as $child) {
+        foreach ($this->getLibxml()->childNodes as $child) {
             $results[] = $child->native;
         }
 

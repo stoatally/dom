@@ -9,29 +9,37 @@ use DomText;
 
 class LibxmlToNativeTranslator
 {
-    public function __invoke(DomDocument $document)
+    public function __invoke($children)
     {
-        $this->walk($document);
+        $this->walk($children);
     }
 
-    private function walk($parent)
+    private function assign($child)
     {
-        if (isset($parent->attributes)) {
-            foreach ($parent->attributes as $attr) {
-                new Nodes\Attribute($attr);
-            }
+        if ($child instanceof DomAttr) {
+            new Nodes\Attribute($child);
         }
 
-        foreach ($parent->childNodes as $child) {
-            if ($child instanceof DomElement) {
-                new Nodes\Element($child);
+        else if ($child instanceof DomDocument) {
+            $this->walk($child->childNodes);
+        }
 
-                $this->walk($child);
-            }
+        else if ($child instanceof DomElement) {
+            new Nodes\Element($child);
 
-            else if ($child instanceof DomText) {
-                new Nodes\Text($child);
-            }
+            $this->walk($child->attributes);
+            $this->walk($child->childNodes);
+        }
+
+        else if ($child instanceof DomText) {
+            new Nodes\Text($child);
+        }
+    }
+
+    private function walk($children)
+    {
+        foreach ($children as $child) {
+            $this->assign($child);
         }
     }
 }

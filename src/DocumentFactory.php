@@ -90,7 +90,7 @@ class DocumentFactory
 
     private function translateLibxmlToNative(NodeTypes\Document $document)
     {
-        $translator = new LibxmlToNativeTranslator();;
-        $translator($document->getLibxml());
+        $translator = new LibxmlToNativeTranslator();
+        $translator($document->getLibxml()->childNodes);
     }
 }
