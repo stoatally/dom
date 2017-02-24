@@ -11,6 +11,7 @@ class Document implements NodeTypes\Document
 {
     use NodeTypes\LibxmlNodeTrait;
     use NodeTypes\NodeTrait;
+    use NodeTypes\ParentNodeTrait;
     use NodeTypes\QueryableNodeTrait;
 
     private $xpath;
@@ -55,7 +56,7 @@ class Document implements NodeTypes\Document
         $fragment = $this->createDocumentFragment();
 
         foreach ($this->getChildren() as $node) {
-            $fragment->append(clone $node);
+            $fragment->appendChild(clone $node);
         }
 
         return $fragment;

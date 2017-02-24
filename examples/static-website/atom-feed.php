@@ -12,21 +12,21 @@ $feed = $tpl->select('atom:feed');
 
 // Set the site heading:
 foreach ($feed->select('atom:title | atom:author/atom:name') as $node) {
-    $node->set($data['site-title']);
+    $node->setContent($data['site-title']);
 }
 
 // Set current date:
-$feed->select('atom:updated')->set(
+$feed->select('atom:updated')->setContent(
     (new DateTime())->format(DateTime::W3C)
 );
 
 // Create an entry element for each item:
 $feed->select('atom:entry')->repeat($data['articles'], function($article, $data) {
-    $article->select('atom:title')->set($data['title']);
-    $article->select('atom:id')->set(
+    $article->select('atom:title')->setContent($data['title']);
+    $article->select('atom:id')->setContent(
         trim(preg_replace('%\W+%', '-', strtolower($data['title'])), '-')
     );
-    $article->select('atom:updated')->set(
+    $article->select('atom:updated')->setContent(
         (new DateTime($data['date']))->format(DateTime::W3C)
     );
 });

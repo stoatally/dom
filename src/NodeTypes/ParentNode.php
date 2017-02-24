@@ -6,11 +6,11 @@ interface ParentNode
 {
     public function getChildren(): Iterator;
 
-    public function set($value): Node;
+    public function setContent($value): Node;
 
-    public function get(): ?string;
+    public function getContent(): ?string;
 
-    public function append($value): Node;
+    public function appendChild($value): Node;
 
-    public function prepend($value): Node;
+    public function prependChild($value): Node;
 }

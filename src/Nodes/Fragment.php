@@ -11,6 +11,7 @@ class Fragment implements NodeTypes\Fragment
     use NodeTypes\ChildNodeTrait;
     use NodeTypes\LibxmlNodeTrait;
     use NodeTypes\NodeTrait;
+    use NodeTypes\ParentNodeTrait;
     use NodeTypes\QueryableNodeTrait;
 
     public function __construct(DomDocumentFragment $libxml)

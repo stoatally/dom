@@ -3,9 +3,9 @@
 namespace Stoatally\Dom\NodeTypes;
 
 trait ChildNodeTrait {
-    public function after($value): ChildNode
+    public function appendSibling($value): ChildNode
     {
-        $node = $this->import($value);
+        $node = $this->importNode($value);
 
         if (isset($this->getLibxml()->nextSibling)) {
             $node->setLibxml(
@@ -17,12 +17,12 @@ trait ChildNodeTrait {
             return $node;
         }
 
-        return $this->getParent()->append($node);
+        return $this->getParent()->appendChild($node);
     }
 
-    public function before($value): ChildNode
+    public function prependSibling($value): ChildNode
     {
-        $node = $this->import($value);
+        $node = $this->importNode($value);
 
         $node->setLibxml(
             $this->getParent()->getLibxml()->insertBefore(
@@ -44,9 +44,9 @@ trait ChildNodeTrait {
         return $this;
     }
 
-    public function replace($value): ChildNode
+    public function replaceWith($value): ChildNode
     {
-        $node = $this->import($value);
+        $node = $this->importNode($value);
 
         $node->setLibxml(
             $this->getParent()->getLibxml()->replaceChild(
@@ -57,10 +57,10 @@ trait ChildNodeTrait {
         return $node;
     }
 
-    public function wrap($value): ChildNode
+    public function wrapWith($value): ChildNode
     {
-        $parent = $this->before($value);
-        $parent->append($this);
+        $parent = $this->prependSibling($value);
+        $parent->appendChild($this);
 
         return $parent;
     }

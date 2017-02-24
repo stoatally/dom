@@ -48,7 +48,7 @@ class DocumentFactory
         $document = $this->create();
         $fragment = $document->createDocumentFragment();
         $fragment->appendXml($xmlOrHtml);
-        $document->append($fragment);
+        $document->appendChild($fragment);
 
         $this->setXPathInstance($document);
         $this->translateLibxmlToNative($document);

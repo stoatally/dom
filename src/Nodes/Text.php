@@ -17,4 +17,14 @@ class Text implements NodeTypes\Text
     {
         $this->setLibxml($libxml);
     }
+
+    public function getContent(): string
+    {
+        return $this->getLibxml()->nodeValue;
+    }
+
+    public function setContent(string $value)
+    {
+        $this->getLibxml()->nodeValue = $value;
+    }
 }

@@ -5,7 +5,8 @@ namespace Stoatally\Dom\NodeTypes;
 use DomNode;
 use Stoatally\Dom\Nodes;
 
-trait NodeTrait {
+trait NodeTrait
+{
     public function getDocument(): Document
     {
         return $this->getLibxml()->ownerDocument->native;
@@ -21,23 +22,12 @@ trait NodeTrait {
         return isset($this->getLibxml()->parentNode);
     }
 
-    public function getChildren(): Iterator
-    {
-        $results = [];
-
-        foreach ($this->getLibxml()->childNodes as $child) {
-            $results[] = $child->native;
-        }
-
-        return new Nodes\Iterator($this->getDocument(), $results);
-    }
-
     public function getNode(): Node
     {
         return $this;
     }
 
-    public function import($value): Node
+    public function importNode($value): Node
     {
         if ($value instanceof ImportableNode) {
             $value = $value->getImportableNode();
@@ -63,47 +53,6 @@ trait NodeTrait {
         return $document->createTextNode((string) $value);
     }
 
-    public function set($value): Node
-    {
-        $this->getLibxml()->nodeValue = null;
-        $this->append($this->import($value));
-
-        return $this;
-    }
-
-    public function get(): ?string
-    {
-        return $this->getLibxml()->nodeValue;
-    }
-
-    public function append($value): Node
-    {
-        $node = $this->import($value);
-
-        $node->setLibxml(
-            $this->getLibxml()->appendChild($node->getLibxml())
-        );
-
-        return $node;
-    }
-
-    public function prepend($value): Node
-    {
-        $node = $this->import($value);
-
-        if ($this->getLibxml()->firstChild) {
-            $node->setLibxml(
-                $this->getLibxml()->insertBefore(
-                    $node->getLibxml(), $this->getLibxml()->firstChild
-                )
-            );
-
-            return $node;
-        }
-
-        return $this->append($node);
-    }
-
     public function duplicate(int $times): Iterator
     {
         if ($times < 2) {
@@ -117,7 +66,7 @@ trait NodeTrait {
             $clone = $results[] = clone $item;
 
             if ($item->getParent()) {
-                $item->after($clone);
+                $item->appendSibling($clone);
                 $item = $clone;
             }
         }

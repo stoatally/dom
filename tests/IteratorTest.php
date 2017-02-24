@@ -109,9 +109,9 @@ class IteratorTest extends TestCase
     {
         list($document, $iterator) = $this->create('<a/>');
 
-        $iterator->set('1');
+        $iterator->setContent('1');
 
-        $this->assertEquals('1', $iterator[0]->get());
+        $this->assertEquals('1', $iterator[0]->getContent());
     }
 
     public function testSetContentsWhenEmpty()
@@ -119,14 +119,14 @@ class IteratorTest extends TestCase
         list($document, $iterator) = $this->createEmpty();
 
         $this->expectException(LogicException::class);
-        $iterator->set('1');
+        $iterator->setContent('1');
     }
 
     public function testGetContents()
     {
         list($document, $iterator) = $this->create('<a>1</a>');
 
-        $this->assertEquals('1', $iterator->get());
+        $this->assertEquals('1', $iterator->getContent());
     }
 
     public function testGetContentsWhenEmpty()
@@ -134,7 +134,7 @@ class IteratorTest extends TestCase
         list($document, $iterator) = $this->createEmpty();
 
         $this->expectException(LogicException::class);
-        $iterator->get();
+        $iterator->getContent();
     }
 
     public function testImportNode()
@@ -142,8 +142,8 @@ class IteratorTest extends TestCase
         list($documentA, $iteratorA) = $this->create('<a/>');
         list($documentB, $iteratorB) = $this->create('<b/>');
 
-        $result = $iteratorA->import($iteratorB[0]);
-        $documentA->append($result);
+        $result = $iteratorA->importNode($iteratorB[0]);
+        $documentA->appendChild($result);
 
         $this->assertEquals($documentA, $result->getDocument());
         $this->assertEquals("<a></a><b></b>\n", $documentA->saveHtml());
@@ -154,7 +154,7 @@ class IteratorTest extends TestCase
         list($documentA, $iteratorA) = $this->createEmpty();
         list($documentB, $iteratorB) = $this->create('<b/>');
 
-        $results = $iteratorA->import($iteratorB[0]);
+        $results = $iteratorA->importNode($iteratorB[0]);
 
         $this->assertTrue($results instanceof NodeTypes\Element);
     }
@@ -164,8 +164,8 @@ class IteratorTest extends TestCase
         list($documentA, $iteratorA) = $this->create('<a/>');
         list($documentB, $iteratorB) = $this->create('<b/>');
 
-        $result = $iteratorA->import($iteratorB);
-        $documentA->append($result);
+        $result = $iteratorA->importNode($iteratorB);
+        $documentA->appendChild($result);
 
         $this->assertEquals($documentA, $result->getDocument());
         $this->assertEquals("<a></a><b></b>\n", $documentA->saveHtml());
@@ -175,7 +175,7 @@ class IteratorTest extends TestCase
     {
         list($document, $iterator) = $this->create('<a/>');
 
-        $iterator->append($document->createElement('b'));
+        $iterator->appendChild($document->createElement('b'));
 
         $this->assertEquals("<a><b></b></a>\n", $document->saveHtml());
     }
@@ -185,14 +185,14 @@ class IteratorTest extends TestCase
         list($document, $iterator) = $this->createEmpty();
 
         $this->expectException(LogicException::class);
-        $iterator->append($document->createElement('b'));
+        $iterator->appendChild($document->createElement('b'));
     }
 
     public function testPrependChild()
     {
         list($document, $iterator) = $this->create('<a/>');
 
-        $iterator->prepend($document->createElement('b'));
+        $iterator->prependChild($document->createElement('b'));
 
         $this->assertEquals("<a><b></b></a>\n", $document->saveHtml());
     }
@@ -202,7 +202,7 @@ class IteratorTest extends TestCase
         list($document, $iterator) = $this->createEmpty();
 
         $this->expectException(LogicException::class);
-        $iterator->prepend($document->createElement('b'));
+        $iterator->prependChild($document->createElement('b'));
     }
 
     public function testDuplicateSelf()

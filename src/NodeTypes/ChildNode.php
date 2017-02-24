@@ -8,13 +8,13 @@ interface ChildNode
 
     public function hasParent(): bool;
 
-    public function after($value): ChildNode;
+    public function appendSibling($value): ChildNode;
 
-    public function before($value): ChildNode;
+    public function prependSibling($value): ChildNode;
 
     public function remove(): ChildNode;
 
-    public function replace($value): ChildNode;
+    public function replaceWith($value): ChildNode;
 
-    public function wrap($value): ChildNode;
+    public function wrapWith($value): ChildNode;
 }

@@ -14,7 +14,7 @@ trait IteratorTrait
         $fragment = $document->createDocumentFragment();
 
         foreach ($this as $node) {
-            $fragment->append(clone $node);
+            $fragment->appendChild(clone $node);
         }
 
         return $fragment;
@@ -41,15 +41,15 @@ trait IteratorTrait
         return new LogicException($method . ' called on an empty iterator.');
     }
 
-    public function import($value): Node
+    public function importNode($value): Node
     {
-        return $this->getDocument()->import($value);
+        return $this->getDocument()->importNode($value);
     }
 
-    public function set($value): Node
+    public function setContent($value): Node
     {
         try {
-            return $this[0]->set($value);
+            return $this[0]->setContent($value);
         }
 
         catch (OutOfBoundsException $error) {
@@ -57,10 +57,10 @@ trait IteratorTrait
         }
     }
 
-    public function get(): ?string
+    public function getContent(): ?string
     {
         try {
-            return $this[0]->get();
+            return $this[0]->getContent();
         }
 
         catch (OutOfBoundsException $error) {
@@ -68,10 +68,10 @@ trait IteratorTrait
         }
     }
 
-    public function append($value): Node
+    public function appendChild($value): Node
     {
         try {
-            return $this[0]->append($value);
+            return $this[0]->appendChild($value);
         }
 
         catch (OutOfBoundsException $error) {
@@ -79,10 +79,10 @@ trait IteratorTrait
         }
     }
 
-    public function prepend($value): Node
+    public function prependChild($value): Node
     {
         try {
-            return $this[0]->prepend($value);
+            return $this[0]->prependChild($value);
         }
 
         catch (OutOfBoundsException $error) {
@@ -135,7 +135,7 @@ trait IteratorTrait
 
                 else {
                     $node->nodeValue = null;
-                    $node->set($items[$index]);
+                    $node->setContent($items[$index]);
                 }
             }
 

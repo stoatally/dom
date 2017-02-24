@@ -12,6 +12,7 @@ class Element implements NodeTypes\Element
     use NodeTypes\LibxmlNodeTrait;
     use NodeTypes\NodeTrait;
     use NodeTypes\NamedNodeTrait;
+    use NodeTypes\ParentNodeTrait;
     use NodeTypes\QueryableNodeTrait;
 
     public function __construct(DomElement $libxml)

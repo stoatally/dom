@@ -19,11 +19,11 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $this->assertEquals(null, $document->getDocumentElement()->get());
+        $this->assertEquals(null, $document->getDocumentElement()->getContent());
 
-        $document->getDocumentElement()->set('Awesome <3');
+        $document->getDocumentElement()->setContent('Awesome <3');
 
-        $this->assertEquals('Awesome <3', $document->getDocumentElement()->get());
+        $this->assertEquals('Awesome <3', $document->getDocumentElement()->getContent());
         $this->assertEquals("<a>Awesome &lt;3</a>\n", $document->saveHtml());
     }
 
@@ -31,8 +31,8 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a>Awesome &lt;3</a>');
 
-        $this->assertEquals('Awesome <3', $document->getDocumentElement()->get());
-        $this->assertEquals('Awesome <3', $document->getDocumentElement()->get());
+        $this->assertEquals('Awesome <3', $document->getDocumentElement()->getContent());
+        $this->assertEquals('Awesome <3', $document->getDocumentElement()->getContent());
     }
 
     public function testImportNode()
@@ -40,8 +40,8 @@ class NodeTest extends TestCase
         $documentA = $this->createDocument('<a/>');
         $documentB = $this->createDocument('<b/>');
 
-        $result = $documentA->import($documentB->getDocumentElement());
-        $documentA->append($result);
+        $result = $documentA->importNode($documentB->getDocumentElement());
+        $documentA->appendChild($result);
 
         $this->assertEquals($documentA, $result->getDocument());
         $this->assertEquals("<a></a><b></b>\n", $documentA->saveHtml());
@@ -51,11 +51,11 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $result = $document->import('a');
-        $document->append($result);
+        $result = $document->importNode('a');
+        $document->appendChild($result);
 
         $this->assertTrue($result instanceof NodeTypes\Text);
-        $this->assertEquals('a', $result->get());
+        $this->assertEquals('a', $result->getContent());
         $this->assertEquals("<a></a>a\n", $document->saveHtml());
     }
 
@@ -63,8 +63,8 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $result = $document->import($document->getDocumentElement());
-        $document->append($result);
+        $result = $document->importNode($document->getDocumentElement());
+        $document->appendChild($result);
 
         $this->assertEquals($document, $result->getDocument());
         $this->assertEquals("<a></a>\n", $document->saveHtml());
@@ -74,7 +74,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $document->getDocumentElement()->append($document->createElement('b'));
+        $document->getDocumentElement()->appendChild($document->createElement('b'));
 
         $this->assertEquals("<a><b></b></a>\n", $document->saveHtml());
     }
@@ -83,7 +83,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $document->getDocumentElement()->prepend($document->createElement('b'));
+        $document->getDocumentElement()->prependChild($document->createElement('b'));
 
         $this->assertEquals("<a><b></b></a>\n", $document->saveHtml());
     }
@@ -92,7 +92,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a><c/></a>');
 
-        $document->getDocumentElement()->prepend($document->createElement('b'));
+        $document->getDocumentElement()->prependChild($document->createElement('b'));
 
         $this->assertEquals("<a><b></b><c></c></a>\n", $document->saveHtml());
     }
@@ -135,7 +135,7 @@ class NodeTest extends TestCase
         $document = $this->createDocument('<a/>');
 
         $results = $document->getDocumentElement()->repeat([1, 2, 3], function($node, $item) {
-            $node->set($item * 2);
+            $node->setContent($item * 2);
         });
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
