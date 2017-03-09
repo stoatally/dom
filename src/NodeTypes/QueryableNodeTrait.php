@@ -16,7 +16,7 @@ trait QueryableNodeTrait
 
     private function getXPathResults($query): Iterator
     {
-        $xpath = $this->getDocument()->getXPath();
+        $xpath = $this->ownerDocument->getXPath();
         $element = $this->getNode();
         $results = [];
 
@@ -24,6 +24,6 @@ trait QueryableNodeTrait
             $results[] = $result->native;
         }
 
-        return new Nodes\Iterator($this->getDocument(), $results);
+        return new Nodes\Iterator($this->ownerDocument, $results);
     }
 }

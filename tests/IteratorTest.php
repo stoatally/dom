@@ -80,7 +80,7 @@ class IteratorTest extends TestCase
     {
         list($document, $iterator) = $this->create('<a/><b/><c/>');
 
-        $this->assertEquals($document, $iterator->getDocument());
+        $this->assertEquals($document, $iterator->ownerDocument);
     }
 
     public function testGetNode()
@@ -180,7 +180,7 @@ class IteratorTest extends TestCase
         $result = $iteratorA->importNode($iteratorB[0]);
         $documentA->appendChild($result);
 
-        $this->assertEquals($documentA, $result->getDocument());
+        $this->assertEquals($documentA, $result->ownerDocument);
         $this->assertEquals("<a></a><b></b>\n", $documentA->saveHtml());
     }
 
@@ -202,7 +202,7 @@ class IteratorTest extends TestCase
         $result = $iteratorA->importNode($iteratorB);
         $documentA->appendChild($result);
 
-        $this->assertEquals($documentA, $result->getDocument());
+        $this->assertEquals($documentA, $result->ownerDocument);
         $this->assertEquals("<a></a><b></b>\n", $documentA->saveHtml());
     }
 

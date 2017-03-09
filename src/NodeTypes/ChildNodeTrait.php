@@ -2,7 +2,20 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-trait ChildNodeTrait {
+trait ChildNodeTrait
+{
+    use ChildNodePropertiesTrait;
+
+    public function getParent(): Node
+    {
+        return $this->getLibxml()->parentNode->native;
+    }
+
+    public function hasParent(): bool
+    {
+        return isset($this->getLibxml()->parentNode);
+    }
+
     public function appendSibling($value): ChildNode
     {
         $node = $this->importNode($value);

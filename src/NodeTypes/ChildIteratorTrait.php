@@ -41,7 +41,7 @@ trait ChildIteratorTrait
 
         $results[] = $node;
 
-        return new Nodes\Iterator($this->getDocument(), $results);
+        return new Nodes\Iterator($this->ownerDocument, $results);
     }
 
     public function prependSibling($value): ChildNode
@@ -57,7 +57,7 @@ trait ChildIteratorTrait
             $results[] = $child;
         }
 
-        return new Nodes\Iterator($this->getDocument(), $results);
+        return new Nodes\Iterator($this->ownerDocument, $results);
     }
 
     /**
@@ -81,7 +81,7 @@ trait ChildIteratorTrait
             $results[] = $child;
         }
 
-        return new Nodes\Iterator($this->getDocument(), $results);
+        return new Nodes\Iterator($this->ownerDocument, $results);
     }
 
     public function remove(): ChildNode
@@ -108,7 +108,7 @@ trait ChildIteratorTrait
             }
         }
 
-        return new Nodes\Iterator($this->getDocument(), $results);
+        return new Nodes\Iterator($this->ownerDocument, $results);
     }
 
     public function wrapWith($value): ChildNode
@@ -124,6 +124,6 @@ trait ChildIteratorTrait
             $parent->appendChild($child);
         }
 
-        return new Nodes\Iterator($this->getDocument(), $results);
+        return new Nodes\Iterator($this->ownerDocument, $results);
     }
 }

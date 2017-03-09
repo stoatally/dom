@@ -2,11 +2,12 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-use DomNode;
 use Stoatally\Dom\Nodes;
 
 trait ParentNodeTrait
 {
+    use ParentNodePropertiesTrait;
+
     public function getChildren(): Iterator
     {
         $results = [];
@@ -15,7 +16,7 @@ trait ParentNodeTrait
             $results[] = $child->native;
         }
 
-        return new Nodes\Iterator($this->getDocument(), $results);
+        return new Nodes\Iterator($this->ownerDocument, $results);
     }
 
     public function setContent($value): Node
@@ -33,7 +34,7 @@ trait ParentNodeTrait
 
     public function setRawContent(string $xmlOrHtml): Node
     {
-        $fragment = $this->getDocument()->createDocumentFragment();
+        $fragment = $this->ownerDocument->createDocumentFragment();
         $fragment->appendXml($xmlOrHtml);
 
         $this->getLibxml()->nodeValue = null;
@@ -47,7 +48,7 @@ trait ParentNodeTrait
         $xmlOrHtml = null;
 
         foreach ($this->getLibxml()->childNodes as $child) {
-            $xmlOrHtml .= $this->getDocument()->getLibxml()->saveXML($child);
+            $xmlOrHtml .= $this->ownerDocument->getLibxml()->saveXML($child);
         }
 
         return $xmlOrHtml;

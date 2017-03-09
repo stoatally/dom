@@ -14,8 +14,6 @@ interface Document extends LibxmlNode, ImportableNode, Node, ParentNode, Queryab
 
     public function createTextNode($text): Text;
 
-    public function getDocumentElement(): Element;
-
     public function saveHtml(): string;
 
     public function getXPath(): DomXPath;

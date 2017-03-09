@@ -8,9 +8,11 @@ use OutOfBoundsException;
 
 trait IteratorTrait
 {
+    use IteratorPropertiesTrait;
+
     public function getImportableNode(): Node
     {
-        $document = $this->getDocument();
+        $document = $this->ownerDocument;
         $fragment = $document->createDocumentFragment();
 
         foreach ($this as $node) {
@@ -43,7 +45,7 @@ trait IteratorTrait
 
     public function importNode($value): Node
     {
-        return $this->getDocument()->importNode($value);
+        return $this->ownerDocument->importNode($value);
     }
 
     public function setContent($value): Node

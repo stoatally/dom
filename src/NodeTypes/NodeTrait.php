@@ -2,24 +2,15 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-use DomNode;
 use Stoatally\Dom\Nodes;
 
 trait NodeTrait
 {
+    use NodePropertiesTrait;
+
     public function getDocument(): Document
     {
         return $this->getLibxml()->ownerDocument->native;
-    }
-
-    public function getParent(): Node
-    {
-        return $this->getLibxml()->parentNode->native;
-    }
-
-    public function hasParent(): bool
-    {
-        return isset($this->getLibxml()->parentNode);
     }
 
     public function getNode(): Node
@@ -38,10 +29,10 @@ trait NodeTrait
 
     private function importOrCreateNode($value): Node
     {
-        $document = $this->getDocument();
+        $document = $this->ownerDocument;
 
         if ($value instanceof Node) {
-            if ($value->getDocument()->getLibxml() !== $document->getLibxml()) {
+            if ($value->ownerDocument->getLibxml() !== $document->getLibxml()) {
                 $value->setLibxml(
                     $document->getLibxml()->importNode($value->getLibxml(), true)
                 );
@@ -56,7 +47,7 @@ trait NodeTrait
     public function duplicate(int $times): Iterator
     {
         if ($times < 2) {
-            return new Nodes\Iterator($this->getDocument(), [$this]);
+            return new Nodes\Iterator($this->ownerDocument, [$this]);
         }
 
         $results = [$this];
@@ -71,7 +62,7 @@ trait NodeTrait
             }
         }
 
-        return new Nodes\Iterator($this->getDocument(), $results);
+        return new Nodes\Iterator($this->ownerDocument, $results);
     }
 
     public function repeat($items, ?Callable $callback = null): Iterator
