@@ -9,8 +9,8 @@ use Stoatally\Dom\NodeTypes;
 
 class Document extends DomDocument implements NodeTypes\Document
 {
-    use NodeTypes\NodeTrait;
-    use NodeTypes\QueryableNodeTrait;
+    use NodeTrait;
+    use QueryableNodeTrait;
 
     private $xpath;
 

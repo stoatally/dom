@@ -1,34 +1,34 @@
 <?php
 
-namespace Stoatally\Dom\NodeTypes;
+namespace Stoatally\Dom\Nodes;
 
-use Stoatally\Dom\Nodes;
+use Stoatally\Dom\NodeTypes;
 
 trait NodeTrait {
-    public function getDocument(): Document
+    public function getDocument(): NodeTypes\Document
     {
         return $this->ownerDocument;
     }
 
-    public function getNode(): Node
+    public function getNode(): NodeTypes\Node
     {
         return $this;
     }
 
-    public function import($value): Node
+    public function import($value): NodeTypes\Node
     {
-        if ($value instanceof ImportableNode) {
+        if ($value instanceof NodeTypes\ImportableNode) {
             $value = $value->getImportableNode();
         }
 
         return $this->importOrCreateNode($value);
     }
 
-    private function importOrCreateNode($value): Node
+    private function importOrCreateNode($value): NodeTypes\Node
     {
         $document = $this->getDocument();
 
-        if ($value instanceof Node) {
+        if ($value instanceof NodeTypes\Node) {
             if ($value->ownerDocument === $document) {
                 return $value;
             }
@@ -39,7 +39,7 @@ trait NodeTrait {
         return $document->createTextNode((string) $value);
     }
 
-    public function set($value): Node
+    public function set($value): NodeTypes\Node
     {
         $this->nodeValue = null;
         $this->appendChild($this->import($value));
@@ -52,12 +52,12 @@ trait NodeTrait {
         return $this->nodeValue;
     }
 
-    public function append($value): Node
+    public function append($value): NodeTypes\Node
     {
         return $this->appendChild($this->import($value));
     }
 
-    public function prepend($value): Node
+    public function prepend($value): NodeTypes\Node
     {
         $node = $this->import($value);
 
@@ -68,10 +68,10 @@ trait NodeTrait {
         return $this->appendChild($node);
     }
 
-    public function duplicate(int $times): Iterator
+    public function duplicate(int $times): NodeTypes\Iterator
     {
         if ($times < 2) {
-            return new Nodes\Iterator($this->getDocument(), [$this]);
+            return new Iterator($this->getDocument(), [$this]);
         }
 
         $results = [$this];
@@ -86,10 +86,10 @@ trait NodeTrait {
             }
         }
 
-        return new Nodes\Iterator($this->getDocument(), $results);
+        return new Iterator($this->getDocument(), $results);
     }
 
-    public function repeat($items, ?Callable $callback = null): Iterator
+    public function repeat($items, ?Callable $callback = null): NodeTypes\Iterator
     {
         return $this->duplicate(count($items))->fill($items, $callback);
     }

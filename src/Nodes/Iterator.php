@@ -9,8 +9,8 @@ use Stoatally\Dom\NodeTypes;
 
 class Iterator implements NodeTypes\Iterator
 {
-    use NodeTypes\IteratorTrait;
-    use NodeTypes\ChildIteratorTrait;
+    use IteratorTrait;
+    use ChildIteratorTrait;
 
     protected $document;
     protected $nodes;

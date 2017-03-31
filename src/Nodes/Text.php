@@ -7,7 +7,7 @@ use Stoatally\Dom\NodeTypes;
 
 class Text extends DomText implements NodeTypes\Text
 {
-    use NodeTypes\NodeTrait;
-    use NodeTypes\ChildNodeTrait;
-    use NodeTypes\QueryableNodeTrait;
+    use NodeTrait;
+    use ChildNodeTrait;
+    use QueryableNodeTrait;
 }

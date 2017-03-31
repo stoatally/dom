@@ -2,8 +2,6 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-use DomNode;
-
 interface ChildNode {
     public function after($value): ChildNode;
 

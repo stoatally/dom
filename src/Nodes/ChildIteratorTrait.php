@@ -1,13 +1,13 @@
 <?php
 
-namespace Stoatally\Dom\NodeTypes;
+namespace Stoatally\Dom\Nodes;
 
 use OutOfBoundsException;
-use Stoatally\Dom\Nodes;
+use Stoatally\Dom\NodeTypes;
 
 trait ChildIteratorTrait
 {
-    public function after($value): ChildNode
+    public function after($value): NodeTypes\ChildNode
     {
         $node = $this->import($value);
         $results = iterator_to_array($this);
@@ -19,10 +19,10 @@ trait ChildIteratorTrait
 
         $results[] = $node;
 
-        return new Nodes\Iterator($this->getDocument(), $results);
+        return new Iterator($this->getDocument(), $results);
     }
 
-    public function before($value): ChildNode
+    public function before($value): NodeTypes\ChildNode
     {
         $node = $this->import($value);
         $results = [$node];
@@ -35,7 +35,7 @@ trait ChildIteratorTrait
             $results[] = $child;
         }
 
-        return new Nodes\Iterator($this->getDocument(), $results);
+        return new Iterator($this->getDocument(), $results);
     }
 
     /**
@@ -44,7 +44,7 @@ trait ChildIteratorTrait
      * @param   string|ChildNode|ImportableNode     $value
      *  The node to insert between the existing nodes.
      */
-    public function between($value): ChildNode
+    public function between($value): NodeTypes\ChildNode
     {
         $node = $this->import($value);
         $results = [];
@@ -59,10 +59,10 @@ trait ChildIteratorTrait
             $results[] = $child;
         }
 
-        return new Nodes\Iterator($this->getDocument(), $results);
+        return new Iterator($this->getDocument(), $results);
     }
 
-    public function replace($value): ChildNode
+    public function replace($value): NodeTypes\ChildNode
     {
         $node = $this->import($value);
         $results = [$node];
@@ -77,10 +77,10 @@ trait ChildIteratorTrait
             }
         }
 
-        return new Nodes\Iterator($this->getDocument(), $results);
+        return new Iterator($this->getDocument(), $results);
     }
 
-    public function wrap($value): ChildNode
+    public function wrap($value): NodeTypes\ChildNode
     {
         $parent = $this->import($value);
         $results = [$parent];
@@ -93,6 +93,6 @@ trait ChildIteratorTrait
             $parent->appendChild($child);
         }
 
-        return new Nodes\Iterator($this->getDocument(), $results);
+        return new Iterator($this->getDocument(), $results);
     }
 }

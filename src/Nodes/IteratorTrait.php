@@ -1,13 +1,14 @@
 <?php
 
-namespace Stoatally\Dom\NodeTypes;
+namespace Stoatally\Dom\Nodes;
 
 use LogicException;
 use OutOfBoundsException;
+use Stoatally\Dom\NodeTypes;
 
 trait IteratorTrait
 {
-    public function getImportableNode(): Node
+    public function getImportableNode(): NodeTypes\Node
     {
         $document = $this->getDocument();
         $fragment = $document->createDocumentFragment();
@@ -19,7 +20,7 @@ trait IteratorTrait
         return $fragment;
     }
 
-    public function getNode(): Node
+    public function getNode(): NodeTypes\Node
     {
         try {
             return $this[0]->getNode();
@@ -35,12 +36,12 @@ trait IteratorTrait
         return new LogicException($method . ' called on an empty iterator.');
     }
 
-    public function import($value): Node
+    public function import($value): NodeTypes\Node
     {
         return $this->getDocument()->import($value);
     }
 
-    public function set($value): Node
+    public function set($value): NodeTypes\Node
     {
         try {
             return $this[0]->set($value);
@@ -62,7 +63,7 @@ trait IteratorTrait
         }
     }
 
-    public function append($value): Node
+    public function append($value): NodeTypes\Node
     {
         try {
             return $this[0]->append($value);
@@ -73,7 +74,7 @@ trait IteratorTrait
         }
     }
 
-    public function prepend($value): Node
+    public function prepend($value): NodeTypes\Node
     {
         try {
             return $this[0]->prepend($value);
@@ -84,7 +85,7 @@ trait IteratorTrait
         }
     }
 
-    public function duplicate(int $times): Iterator
+    public function duplicate(int $times): NodeTypes\Iterator
     {
         try {
             return $this[0]->duplicate($times);
@@ -95,7 +96,7 @@ trait IteratorTrait
         }
     }
 
-    public function repeat($items, ?Callable $callback = null): Iterator
+    public function repeat($items, ?Callable $callback = null): NodeTypes\Iterator
     {
         try {
             return $this[0]->repeat($items, $callback);
@@ -106,7 +107,7 @@ trait IteratorTrait
         }
     }
 
-    public function select(string $query): Iterator
+    public function select(string $query): NodeTypes\Iterator
     {
         try {
             return $this[0]->select($query);
@@ -117,7 +118,7 @@ trait IteratorTrait
         }
     }
 
-    public function fill($items, ?Callable $callback = null): Iterator
+    public function fill($items, ?Callable $callback = null): NodeTypes\Iterator
     {
         $index = 0;
 

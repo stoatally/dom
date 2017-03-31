@@ -1,9 +1,11 @@
 <?php
 
-namespace Stoatally\Dom\NodeTypes;
+namespace Stoatally\Dom\Nodes;
+
+use Stoatally\Dom\NodeTypes;
 
 trait ChildNodeTrait {
-    public function after($value): ChildNode
+    public function after($value): NodeTypes\ChildNode
     {
         $node = $this->import($value);
 
@@ -14,17 +16,17 @@ trait ChildNodeTrait {
         return $this->parentNode->appendChild($node);
     }
 
-    public function before($value): ChildNode
+    public function before($value): NodeTypes\ChildNode
     {
         return $this->parentNode->insertBefore($this->import($value), $this);
     }
 
-    public function replace($value): ChildNode
+    public function replace($value): NodeTypes\ChildNode
     {
         return $this->parentNode->replaceChild($this->import($value), $this);
     }
 
-    public function wrap($value): ChildNode
+    public function wrap($value): NodeTypes\ChildNode
     {
         $parent = $this->before($value);
         $parent->appendChild($this);

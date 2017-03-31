@@ -7,7 +7,7 @@ use Stoatally\Dom\NodeTypes;
 
 class Fragment extends DomDocumentFragment implements NodeTypes\Fragment
 {
-    use NodeTypes\NodeTrait;
-    use NodeTypes\ChildNodeTrait;
-    use NodeTypes\QueryableNodeTrait;
+    use NodeTrait;
+    use ChildNodeTrait;
+    use QueryableNodeTrait;
 }
