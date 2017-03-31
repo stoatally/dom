@@ -1,0 +1,11 @@
+notifications:
+  email: false
+
+language: php
+
+php:
+  - 7.1
+
+install: ./scripts/travis-install.sh
+
+script: php vendor/bin/phpunit --configuration ./phpunit.xml --coverage-text
