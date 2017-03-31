@@ -2,7 +2,7 @@
 
  Life improving enhancements to the standard PHP DOM.
 
-[![Build Status](https://secure.travis-ci.org/stoatally/dom.png?branch=master)](http://travis-ci.org/stoatally/dom)
+[![Build Status](https://secure.travis-ci.org/stoatally/dom.svg?branch=master)](http://travis-ci.org/stoatally/dom)
 
 
 ## Install
