@@ -2,22 +2,23 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-interface Node {
+interface Node
+{
     public function getDocument(): Document;
 
     public function getNode(): Node;
 
     public function import($value): Node;
 
-    public function set($value): Node;
-
-    public function get(): ?string;
-
     public function append($value): Node;
 
     public function prepend($value): Node;
 
-    public function duplicate(int $times): Iterator;
+    public function getContents(): ?string;
 
-    public function repeat($items, ?Callable $callback = null): Iterator;
+    public function setContents($value): Node;
+
+    public function duplicateNode(int $times): Iterator;
+
+    public function repeatNode($items, ?Callable $callback = null): Iterator;
 }

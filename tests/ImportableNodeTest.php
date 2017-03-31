@@ -18,7 +18,7 @@ class ImportableNodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $document->documentElement->set(new class($document) implements NodeTypes\ImportableNode {
+        $document->documentElement->setContents(new class($document) implements NodeTypes\ImportableNode {
             use ImportableNodeTestTrait;
 
             public function getImportableNode(): NodeTypes\Node

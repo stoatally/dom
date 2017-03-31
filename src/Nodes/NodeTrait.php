@@ -39,17 +39,17 @@ trait NodeTrait {
         return $document->createTextNode((string) $value);
     }
 
-    public function set($value): NodeTypes\Node
+    public function getContents(): ?string
+    {
+        return $this->nodeValue;
+    }
+
+    public function setContents($value): NodeTypes\Node
     {
         $this->nodeValue = null;
         $this->appendChild($this->import($value));
 
         return $this;
-    }
-
-    public function get(): ?string
-    {
-        return $this->nodeValue;
     }
 
     public function append($value): NodeTypes\Node
@@ -68,7 +68,7 @@ trait NodeTrait {
         return $this->appendChild($node);
     }
 
-    public function duplicate(int $times): NodeTypes\Iterator
+    public function duplicateNode(int $times): NodeTypes\Iterator
     {
         if ($times < 2) {
             return new Iterator($this->getDocument(), [$this]);
@@ -81,7 +81,7 @@ trait NodeTrait {
             $clone = $results[] = $item->cloneNode(true);
 
             if ($item->parentNode) {
-                $item->after($clone);
+                $item->appendSibling($clone);
                 $item = $clone;
             }
         }
@@ -89,8 +89,8 @@ trait NodeTrait {
         return new Iterator($this->getDocument(), $results);
     }
 
-    public function repeat($items, ?Callable $callback = null): NodeTypes\Iterator
+    public function repeatNode($items, ?Callable $callback = null): NodeTypes\Iterator
     {
-        return $this->duplicate(count($items))->fill($items, $callback);
+        return $this->duplicateNode(count($items))->fillNodes($items, $callback);
     }
 }

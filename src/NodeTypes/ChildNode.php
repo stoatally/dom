@@ -2,12 +2,13 @@
 
 namespace Stoatally\Dom\NodeTypes;
 
-interface ChildNode {
-    public function after($value): ChildNode;
+interface ChildNode
+{
+    public function appendSibling($value): ChildNode;
 
-    public function before($value): ChildNode;
+    public function prependSibling($value): ChildNode;
 
-    public function replace($value): ChildNode;
+    public function replaceNode($value): ChildNode;
 
-    public function wrap($value): ChildNode;
+    public function wrapNode($value): ChildNode;
 }

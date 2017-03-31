@@ -102,7 +102,7 @@ class IteratorTest extends TestCase
     {
         list($document, $iterator) = $this->create('<a/>');
 
-        $iterator->set('1');
+        $iterator->setContents('1');
 
         $this->assertEquals('1', $iterator[0]->nodeValue);
     }
@@ -112,14 +112,14 @@ class IteratorTest extends TestCase
         list($document, $iterator) = $this->createEmpty();
 
         $this->expectException(LogicException::class);
-        $iterator->set('1');
+        $iterator->setContents('1');
     }
 
     public function testGetContents()
     {
         list($document, $iterator) = $this->create('<a>1</a>');
 
-        $this->assertEquals('1', $iterator->get());
+        $this->assertEquals('1', $iterator->getContents());
     }
 
     public function testGetContentsWhenEmpty()
@@ -127,7 +127,7 @@ class IteratorTest extends TestCase
         list($document, $iterator) = $this->createEmpty();
 
         $this->expectException(LogicException::class);
-        $iterator->get();
+        $iterator->getContents();
     }
 
     public function testImportNode()
@@ -208,7 +208,7 @@ class IteratorTest extends TestCase
     {
         list($document, $iterator) = $this->create('<a/>');
 
-        $iterator->duplicate(3);
+        $iterator->duplicateNode(3);
 
         $this->assertEquals("<a></a><a></a><a></a>\n", $document->saveHtml());
     }
@@ -218,14 +218,14 @@ class IteratorTest extends TestCase
         list($document, $iterator) = $this->createEmpty();
 
         $this->expectException(LogicException::class);
-        $iterator->duplicate(3);
+        $iterator->duplicateNode(3);
     }
 
     public function testRepeatSelf()
     {
         list($document, $iterator) = $this->create('<a/>');
 
-        $results = $iterator->repeat([1, 2, 3]);
+        $results = $iterator->repeatNode([1, 2, 3]);
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(3, count($results));
@@ -237,14 +237,14 @@ class IteratorTest extends TestCase
         list($document, $iterator) = $this->createEmpty();
 
         $this->expectException(LogicException::class);
-        $iterator->repeat([1, 2, 3]);
+        $iterator->repeatNode([1, 2, 3]);
     }
 
     public function testFillNodes()
     {
         list($document, $iterator) = $this->create('<a/><b/><c/>');
 
-        $results = $iterator->fill([1, 2, 3]);
+        $results = $iterator->fillNodes([1, 2, 3]);
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(3, count($results));
@@ -255,7 +255,7 @@ class IteratorTest extends TestCase
     {
         list($document, $iterator) = $this->create('<a/><b/><c/>');
 
-        $results = $iterator->fill([1]);
+        $results = $iterator->fillNodes([1]);
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(3, count($results));

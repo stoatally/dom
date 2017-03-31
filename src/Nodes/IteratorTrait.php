@@ -41,10 +41,10 @@ trait IteratorTrait
         return $this->getDocument()->import($value);
     }
 
-    public function set($value): NodeTypes\Node
+    public function setContents($value): NodeTypes\Node
     {
         try {
-            return $this[0]->set($value);
+            return $this[0]->setContents($value);
         }
 
         catch (OutOfBoundsException $error) {
@@ -52,10 +52,10 @@ trait IteratorTrait
         }
     }
 
-    public function get(): ?string
+    public function getContents(): ?string
     {
         try {
-            return $this[0]->get();
+            return $this[0]->getContents();
         }
 
         catch (OutOfBoundsException $error) {
@@ -85,10 +85,10 @@ trait IteratorTrait
         }
     }
 
-    public function duplicate(int $times): NodeTypes\Iterator
+    public function duplicateNode(int $times): NodeTypes\Iterator
     {
         try {
-            return $this[0]->duplicate($times);
+            return $this[0]->duplicateNode($times);
         }
 
         catch (OutOfBoundsException $error) {
@@ -96,10 +96,10 @@ trait IteratorTrait
         }
     }
 
-    public function repeat($items, ?Callable $callback = null): NodeTypes\Iterator
+    public function repeatNode($items, ?Callable $callback = null): NodeTypes\Iterator
     {
         try {
-            return $this[0]->repeat($items, $callback);
+            return $this[0]->repeatNode($items, $callback);
         }
 
         catch (OutOfBoundsException $error) {
@@ -118,7 +118,7 @@ trait IteratorTrait
         }
     }
 
-    public function fill($items, ?Callable $callback = null): NodeTypes\Iterator
+    public function fillNodes($items, ?Callable $callback = null): NodeTypes\Iterator
     {
         $index = 0;
 
@@ -130,7 +130,7 @@ trait IteratorTrait
 
                 else {
                     $node->nodeValue = null;
-                    $node->set($items[$index]);
+                    $node->setContents($items[$index]);
                 }
             }
 

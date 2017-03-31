@@ -4,8 +4,9 @@ namespace Stoatally\Dom\Nodes;
 
 use Stoatally\Dom\NodeTypes;
 
-trait ChildNodeTrait {
-    public function after($value): NodeTypes\ChildNode
+trait ChildNodeTrait
+{
+    public function appendSibling($value): NodeTypes\ChildNode
     {
         $node = $this->import($value);
 
@@ -16,19 +17,19 @@ trait ChildNodeTrait {
         return $this->parentNode->appendChild($node);
     }
 
-    public function before($value): NodeTypes\ChildNode
+    public function prependSibling($value): NodeTypes\ChildNode
     {
         return $this->parentNode->insertBefore($this->import($value), $this);
     }
 
-    public function replace($value): NodeTypes\ChildNode
+    public function replaceNode($value): NodeTypes\ChildNode
     {
         return $this->parentNode->replaceChild($this->import($value), $this);
     }
 
-    public function wrap($value): NodeTypes\ChildNode
+    public function wrapNode($value): NodeTypes\ChildNode
     {
-        $parent = $this->before($value);
+        $parent = $this->prependSibling($value);
         $parent->appendChild($this);
 
         return $parent;

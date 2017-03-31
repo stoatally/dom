@@ -8,5 +8,5 @@ use IteratorAggregate;
 
 interface Iterator extends ArrayAccess, Countable, IteratorAggregate, Node, ImportableNode, ChildIterator, QueryableNode
 {
-    public function fill($items, ?Callable $callback = null): Iterator;
+    public function fillNodes($items, ?Callable $callback = null): Iterator;
 }

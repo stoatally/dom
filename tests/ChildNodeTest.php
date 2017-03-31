@@ -39,7 +39,7 @@ class ChildNodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $results = $document->documentElement->after($document->createElement('b'));
+        $results = $document->documentElement->appendSibling($document->createElement('b'));
 
         $this->assertTrue($results instanceof NodeTypes\Element);
         $this->assertEquals("<a></a><b></b>\n", $document->saveHtml());
@@ -49,7 +49,7 @@ class ChildNodeTest extends TestCase
     {
         $document = $this->createDocument('<a/><b/><d/>');
 
-        $results = $document->childNodes[1]->after($document->createElement('c'));
+        $results = $document->childNodes[1]->appendSibling($document->createElement('c'));
 
         $this->assertTrue($results instanceof NodeTypes\Element);
         $this->assertEquals("<a></a><b></b><c></c><d></d>\n", $document->saveHtml());
@@ -59,7 +59,7 @@ class ChildNodeTest extends TestCase
     {
         list($document, $iterator) = $this->createIterator('<a/>');
 
-        $results = $iterator->after($document->createElement('b'));
+        $results = $iterator->appendSibling($document->createElement('b'));
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(2, count($results));
@@ -70,7 +70,7 @@ class ChildNodeTest extends TestCase
     {
         list($document, $iterator) = $this->createIterator('<a/><b/><d/>');
 
-        $results = $iterator[1]->after($document->createElement('c'));
+        $results = $iterator[1]->appendSibling($document->createElement('c'));
 
         $this->assertTrue($results instanceof NodeTypes\Element);
         $this->assertEquals("<a></a><b></b><c></c><d></d>\n", $document->saveHtml());
@@ -80,7 +80,7 @@ class ChildNodeTest extends TestCase
     {
         list($document, $iterator) = $this->createEmptyIterator();
 
-        $results = $iterator->after($document->createElement('a'));
+        $results = $iterator->appendSibling($document->createElement('a'));
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(1, count($results));
@@ -91,7 +91,7 @@ class ChildNodeTest extends TestCase
     {
         $document = $this->createDocument('<b/>');
 
-        $results = $document->documentElement->before($document->createElement('a'));
+        $results = $document->documentElement->prependSibling($document->createElement('a'));
 
         $this->assertTrue($results instanceof NodeTypes\Element);
         $this->assertEquals("<a></a><b></b>\n", $document->saveHtml());
@@ -101,7 +101,7 @@ class ChildNodeTest extends TestCase
     {
         list($document, $iterator) = $this->createIterator('<b/>');
 
-        $results = $iterator->before($document->createElement('a'));
+        $results = $iterator->prependSibling($document->createElement('a'));
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(2, count($results));
@@ -112,7 +112,7 @@ class ChildNodeTest extends TestCase
     {
         list($document, $iterator) = $this->createEmptyIterator();
 
-        $results = $iterator->before($document->createElement('a'));
+        $results = $iterator->prependSibling($document->createElement('a'));
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(1, count($results));
@@ -123,7 +123,7 @@ class ChildNodeTest extends TestCase
     {
         list($document, $iterator) = $this->createIterator('<a/><a/><a/>');
 
-        $results = $iterator->between('|');
+        $results = $iterator->betweenSiblings('|');
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(5, count($results));
@@ -134,7 +134,7 @@ class ChildNodeTest extends TestCase
     {
         list($document, $iterator) = $this->createEmptyIterator();
 
-        $results = $iterator->between($document->createElement('b'));
+        $results = $iterator->betweenSiblings($document->createElement('b'));
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(0, count($results));
@@ -145,7 +145,7 @@ class ChildNodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $results = $document->documentElement->replace($document->createElement('b'));
+        $results = $document->documentElement->replaceNode($document->createElement('b'));
 
         $this->assertTrue($results instanceof NodeTypes\Element);
         $this->assertEquals("<b></b>\n", $document->saveHtml());
@@ -155,7 +155,7 @@ class ChildNodeTest extends TestCase
     {
         list($document, $iterator) = $this->createIterator('<a/><b/><c/>');
 
-        $results = $iterator->replace($document->createElement('d'));
+        $results = $iterator->replaceNode($document->createElement('d'));
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(1, count($results));
@@ -167,7 +167,7 @@ class ChildNodeTest extends TestCase
     {
         list($document, $iterator) = $this->createEmptyIterator();
 
-        $results = $iterator->replace($document->createElement('b'));
+        $results = $iterator->replaceNode($document->createElement('b'));
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(1, count($results));
@@ -178,7 +178,7 @@ class ChildNodeTest extends TestCase
     {
         $document = $this->createDocument('<li/>');
 
-        $results = $document->documentElement->wrap($document->createElement('ol'));
+        $results = $document->documentElement->wrapNode($document->createElement('ol'));
 
         $this->assertTrue($results instanceof NodeTypes\Element);
         $this->assertEquals($document->documentElement, $results);
@@ -189,7 +189,7 @@ class ChildNodeTest extends TestCase
     {
         list($document, $iterator) = $this->createIterator('<li/><li/><li/>');
 
-        $results = $iterator->wrap($document->createElement('ol'));
+        $results = $iterator->wrapNode($document->createElement('ol'));
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(1, count($results));
@@ -201,7 +201,7 @@ class ChildNodeTest extends TestCase
     {
         list($document, $iterator) = $this->createEmptyIterator();
 
-        $results = $iterator->wrap($document->createElement('ol'));
+        $results = $iterator->wrapNode($document->createElement('ol'));
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(1, count($results));

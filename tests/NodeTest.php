@@ -21,7 +21,7 @@ class NodeTest extends TestCase
 
         $this->assertEquals(null, $document->documentElement->nodeValue);
 
-        $document->documentElement->set('Awesome <3');
+        $document->documentElement->setContents('Awesome <3');
 
         $this->assertEquals('Awesome <3', $document->documentElement->nodeValue);
         $this->assertEquals("<a>Awesome &lt;3</a>\n", $document->saveHtml());
@@ -32,7 +32,7 @@ class NodeTest extends TestCase
         $document = $this->createDocument('<a>Awesome &lt;3</a>');
 
         $this->assertEquals('Awesome <3', $document->documentElement->nodeValue);
-        $this->assertEquals('Awesome <3', $document->documentElement->get());
+        $this->assertEquals('Awesome <3', $document->documentElement->getContents());
     }
 
     public function testImportNode()
@@ -101,7 +101,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $results = $document->documentElement->duplicate(3);
+        $results = $document->documentElement->duplicateNode(3);
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(3, count($results));
@@ -112,7 +112,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $results = $document->documentElement->duplicate(1);
+        $results = $document->documentElement->duplicateNode(1);
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(1, count($results));
@@ -123,7 +123,7 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $results = $document->documentElement->repeat([1, 2, 3]);
+        $results = $document->documentElement->repeatNode([1, 2, 3]);
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(3, count($results));
@@ -134,8 +134,8 @@ class NodeTest extends TestCase
     {
         $document = $this->createDocument('<a/>');
 
-        $results = $document->documentElement->repeat([1, 2, 3], function($node, $item) {
-            $node->set($item * 2);
+        $results = $document->documentElement->repeatNode([1, 2, 3], function($node, $item) {
+            $node->setContents($item * 2);
         });
 
         $this->assertTrue($results instanceof NodeTypes\Iterator);

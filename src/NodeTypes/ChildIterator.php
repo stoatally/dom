@@ -10,5 +10,5 @@ interface ChildIterator extends ChildNode
      * @param   string|ChildNode|ImportableNode     $value
      *  The node to insert between the existing nodes.
      */
-    public function between($value): ChildNode;
+    public function betweenSiblings($value): ChildNode;
 }

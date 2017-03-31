@@ -7,14 +7,14 @@ use Stoatally\Dom\NodeTypes;
 
 trait ChildIteratorTrait
 {
-    public function after($value): NodeTypes\ChildNode
+    public function appendSibling($value): NodeTypes\ChildNode
     {
         $node = $this->import($value);
         $results = iterator_to_array($this);
 
         if (false === empty($results)) {
             $last = end($results);
-            $last->after($node);
+            $last->appendSibling($node);
         }
 
         $results[] = $node;
@@ -22,14 +22,14 @@ trait ChildIteratorTrait
         return new Iterator($this->getDocument(), $results);
     }
 
-    public function before($value): NodeTypes\ChildNode
+    public function prependSibling($value): NodeTypes\ChildNode
     {
         $node = $this->import($value);
         $results = [$node];
 
         foreach ($this as $index => $child) {
             if ($index === 0) {
-                $child->before($node);
+                $child->prependSibling($node);
             }
 
             $results[] = $child;
@@ -44,7 +44,7 @@ trait ChildIteratorTrait
      * @param   string|ChildNode|ImportableNode     $value
      *  The node to insert between the existing nodes.
      */
-    public function between($value): NodeTypes\ChildNode
+    public function betweenSiblings($value): NodeTypes\ChildNode
     {
         $node = $this->import($value);
         $results = [];
@@ -52,7 +52,7 @@ trait ChildIteratorTrait
         foreach ($this as $index => $child) {
             if ($index > 0) {
                 $new = $node->cloneNode(true);
-                $child->before($new);
+                $child->prependSibling($new);
                 $results[] = $new;
             }
 
@@ -62,14 +62,14 @@ trait ChildIteratorTrait
         return new Iterator($this->getDocument(), $results);
     }
 
-    public function replace($value): NodeTypes\ChildNode
+    public function replaceNode($value): NodeTypes\ChildNode
     {
         $node = $this->import($value);
         $results = [$node];
 
         foreach ($this as $index => $child) {
             if ($index === 0) {
-                $child->replace($node);
+                $child->replaceNode($node);
             }
 
             else if ($child->parentNode) {
@@ -80,14 +80,14 @@ trait ChildIteratorTrait
         return new Iterator($this->getDocument(), $results);
     }
 
-    public function wrap($value): NodeTypes\ChildNode
+    public function wrapNode($value): NodeTypes\ChildNode
     {
         $parent = $this->import($value);
         $results = [$parent];
 
         foreach ($this as $index => $child) {
             if ($index === 0) {
-                $this[0]->before($parent);
+                $this[0]->prependSibling($parent);
             }
 
             $parent->appendChild($child);
