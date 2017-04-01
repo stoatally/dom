@@ -96,6 +96,17 @@ trait IteratorTrait
         }
     }
 
+    public function extractNode(): NodeTypes\Iterator
+    {
+        try {
+            return $this[0]->extractNode();
+        }
+
+        catch (OutOfBoundsException $error) {
+            throw $this->createEmptyIteratorException(__METHOD__);
+        }
+    }
+
     public function repeatNode($items, ?Callable $callback = null): NodeTypes\Iterator
     {
         try {

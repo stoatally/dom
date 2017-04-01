@@ -89,6 +89,19 @@ trait NodeTrait {
         return new Iterator($this->getDocument(), $results);
     }
 
+    public function extractNode(): NodeTypes\Iterator
+    {
+        $children = new Iterator($this->getDocument(), iterator_to_array($this->childNodes));
+
+        foreach ($children as $child) {
+            $this->prependSibling($child);
+        }
+
+        $this->parentNode->removeChild($this);
+
+        return $children;
+    }
+
     public function repeatNode($items, ?Callable $callback = null): NodeTypes\Iterator
     {
         return $this->duplicateNode(count($items))->fillNodes($items, $callback);

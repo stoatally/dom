@@ -221,6 +221,23 @@ class IteratorTest extends TestCase
         $iterator->duplicateNode(3);
     }
 
+    public function testExtractNode()
+    {
+        list($document, $iterator) = $this->create('<a><b/></a>');
+
+        $iterator->extractNode();
+
+        $this->assertEquals("<b></b>\n", $document->saveHtml());
+    }
+
+    public function testExtractNodeWhenEmpty()
+    {
+        list($document, $iterator) = $this->createEmpty();
+
+        $this->expectException(LogicException::class);
+        $iterator->extractNode();
+    }
+
     public function testRepeatSelf()
     {
         list($document, $iterator) = $this->create('<a/>');

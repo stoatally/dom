@@ -18,7 +18,18 @@ interface Node
 
     public function setContents($value): Node;
 
+    /**
+     * Duplicate a node a given number of times.
+     */
     public function duplicateNode(int $times): Iterator;
 
+    /**
+     * Extract a node from the dom, leaving any children behind.
+     */
+    public function extractNode(): Iterator;
+
+    /**
+     * Repeat a node for every item in an array or iteratable, and set its contents.
+     */
     public function repeatNode($items, ?Callable $callback = null): Iterator;
 }

@@ -119,7 +119,18 @@ class NodeTest extends TestCase
         $this->assertEquals("<a></a>\n", $document->saveHtml());
     }
 
-    public function testRepeat()
+    public function testExtractNode()
+    {
+        $document = $this->createDocument('<a><b/></a>');
+
+        $results = $document->documentElement->extractNode();
+
+        $this->assertTrue($results instanceof NodeTypes\Iterator);
+        $this->assertEquals(1, count($results));
+        $this->assertEquals("<b></b>\n", $document->saveHtml());
+    }
+
+    public function testRepeatNode()
     {
         $document = $this->createDocument('<a/>');
 
@@ -130,7 +141,7 @@ class NodeTest extends TestCase
         $this->assertEquals("<a>1</a><a>2</a><a>3</a>\n", $document->saveHtml());
     }
 
-    public function testRepeatWithCallback()
+    public function testRepeatNodeWithCallback()
     {
         $document = $this->createDocument('<a/>');
 
