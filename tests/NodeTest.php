@@ -130,6 +130,16 @@ class NodeTest extends TestCase
         $this->assertEquals("<b></b>\n", $document->saveHtml());
     }
 
+    public function testRemoveNode()
+    {
+        $document = $this->createDocument('<a><b/></a>');
+
+        $results = $document->documentElement->removeNode();
+
+        $this->assertTrue($results instanceof NodeTypes\Node);
+        $this->assertEquals("\n", $document->saveHtml());
+    }
+
     public function testRepeatNode()
     {
         $document = $this->createDocument('<a/>');

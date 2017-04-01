@@ -29,6 +29,11 @@ interface Node
     public function extractNode(): Iterator;
 
     /**
+     * Remove a node from the dom.
+     */
+    public function removeNode(): Node;
+
+    /**
      * Repeat a node for every item in an array or iteratable, and set its contents.
      */
     public function repeatNode($items, ?Callable $callback = null): Iterator;

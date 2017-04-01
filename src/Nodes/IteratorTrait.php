@@ -107,6 +107,17 @@ trait IteratorTrait
         }
     }
 
+    public function removeNode(): NodeTypes\Node
+    {
+        try {
+            return $this[0]->removeNode();
+        }
+
+        catch (OutOfBoundsException $error) {
+            throw $this->createEmptyIteratorException(__METHOD__);
+        }
+    }
+
     public function repeatNode($items, ?Callable $callback = null): NodeTypes\Iterator
     {
         try {

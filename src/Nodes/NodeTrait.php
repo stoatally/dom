@@ -97,9 +97,18 @@ trait NodeTrait {
             $this->prependSibling($child);
         }
 
-        $this->parentNode->removeChild($this);
+        $this->removeNode();
 
         return $children;
+    }
+
+    public function removeNode(): NodeTypes\Node
+    {
+        if ($this->parentNode) {
+            $this->parentNode->removeChild($this);
+        }
+
+        return $this;
     }
 
     public function repeatNode($items, ?Callable $callback = null): NodeTypes\Iterator
