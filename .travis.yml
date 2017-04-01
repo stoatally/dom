@@ -8,4 +8,4 @@ php:
 
 install: ./scripts/travis-install.sh
 
-script: php vendor/bin/phpunit --configuration ./phpunit.xml --coverage-text
+script: phpunit --configuration ./phpunit.xml --coverage-text
