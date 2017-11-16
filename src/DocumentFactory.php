@@ -80,6 +80,7 @@ class DocumentFactory
     {
         $document->registerNodeClass('DOMAttr', __NAMESPACE__ . '\Nodes\Attribute');
         $document->registerNodeClass('DOMElement', __NAMESPACE__ . '\Nodes\Element');
+        $document->registerNodeClass('DOMDocument', __NAMESPACE__ . '\Nodes\Document');
         $document->registerNodeClass('DOMDocumentFragment', __NAMESPACE__ . '\Nodes\Fragment');
         $document->registerNodeClass('DOMText', __NAMESPACE__ . '\Nodes\Text');
     }
