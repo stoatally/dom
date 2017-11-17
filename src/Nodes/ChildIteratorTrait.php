@@ -90,7 +90,7 @@ trait ChildIteratorTrait
                 $this[0]->prependSibling($parent);
             }
 
-            $parent->appendChild($child);
+            $parent->append($child);
         }
 
         return new Iterator($this->getDocument(), $results);

@@ -14,7 +14,7 @@ trait ChildNodeTrait
             return $this->parentNode->insertBefore($node, $this->nextSibling);
         }
 
-        return $this->parentNode->appendChild($node);
+        return $this->parentNode->append($node);
     }
 
     public function prependSibling($value): NodeTypes\ChildNode
@@ -30,7 +30,7 @@ trait ChildNodeTrait
     public function wrapNode($value): NodeTypes\ChildNode
     {
         $parent = $this->prependSibling($value);
-        $parent->appendChild($this);
+        $parent->append($this);
 
         return $parent;
     }

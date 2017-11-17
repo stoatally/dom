@@ -41,7 +41,7 @@ class NodeTest extends TestCase
         $documentB = $this->createDocument('<b/>');
 
         $result = $documentA->import($documentB->documentElement);
-        $documentA->appendChild($result);
+        $documentA->append($result);
 
         $this->assertEquals($documentA, $result->ownerDocument);
         $this->assertEquals("<a></a><b></b>\n", $documentA->saveHtml());
@@ -52,7 +52,7 @@ class NodeTest extends TestCase
         $document = $this->createDocument('<a/>');
 
         $result = $document->import('a');
-        $document->appendChild($result);
+        $document->append($result);
 
         $this->assertTrue($result instanceof DomText);
         $this->assertEquals('a', $result->nodeValue);
@@ -64,13 +64,13 @@ class NodeTest extends TestCase
         $document = $this->createDocument('<a/>');
 
         $result = $document->import($document->documentElement);
-        $document->appendChild($result);
+        $document->append($result);
 
         $this->assertEquals($document, $result->ownerDocument);
         $this->assertEquals("<a></a>\n", $document->saveHtml());
     }
 
-    public function testAppendChildToEmptyNode()
+    public function testappendToEmptyNode()
     {
         $document = $this->createDocument('<a/>');
 

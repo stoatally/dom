@@ -14,7 +14,7 @@ trait IteratorTrait
         $fragment = $document->createDocumentFragment();
 
         foreach ($this as $node) {
-            $fragment->appendChild($node->cloneNode(true));
+            $fragment->append($node->cloneNode(true));
         }
 
         return $fragment;

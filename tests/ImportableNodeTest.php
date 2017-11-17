@@ -38,7 +38,7 @@ class ImportableNodeTest extends TestCase
         $document = $this->createDocument('<a/>');
 
         $result = $document->import($this->createDocument('<b/>'));
-        $document->appendChild($result);
+        $document->append($result);
 
         $this->assertEquals($document, $result->ownerDocument);
         $this->assertEquals("<a></a><b></b>\n", $document->saveHtml());

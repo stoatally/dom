@@ -2,9 +2,12 @@
 
 namespace Stoatally\Dom\Nodes;
 
+use BadMethodCallException;
+use DOMNode;
 use Stoatally\Dom\NodeTypes;
 
-trait NodeTrait {
+trait NodeTrait
+{
     public function getDocument(): NodeTypes\Document
     {
         return $this->ownerDocument;
@@ -47,25 +50,31 @@ trait NodeTrait {
     public function setContents($value): NodeTypes\Node
     {
         $this->nodeValue = null;
-        $this->appendChild($this->import($value));
+        $this->append($value);
 
         return $this;
     }
 
+    /**
+     * @deprecated  Use the `append` method instead as it behaves in the same was as `prepend`.
+     */
+    public function appendChild(DOMNode $node)
+    {
+        throw new BadMethodCallException('Deprecated method `appendChild`.');
+    }
+
     public function append($value): NodeTypes\Node
     {
-        return $this->appendChild($this->import($value));
+        return parent::appendChild($this->import($value));
     }
 
     public function prepend($value): NodeTypes\Node
     {
-        $node = $this->import($value);
-
         if ($this->firstChild) {
-            return $this->insertBefore($node, $this->firstChild);
+            return $this->insertBefore($this->import($value), $this->firstChild);
         }
 
-        return $this->appendChild($node);
+        return $this->append($value);
     }
 
     public function duplicateNode(int $times): NodeTypes\Iterator

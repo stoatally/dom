@@ -34,7 +34,7 @@ class Document extends DomDocument implements NodeTypes\Document
         $fragment = $this->createDocumentFragment();
 
         foreach ($this->childNodes as $node) {
-            $fragment->appendChild($node->cloneNode(true));
+            $fragment->append($node->cloneNode(true));
         }
 
         return $fragment;

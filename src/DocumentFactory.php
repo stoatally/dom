@@ -43,7 +43,7 @@ class DocumentFactory
         $document = $this->create();
         $fragment = $document->createDocumentFragment();
         $fragment->appendXml($xmlOrHtml);
-        $document->appendChild($fragment);
+        $document->append($fragment);
 
         $this->setXPathInstance($document);
 
