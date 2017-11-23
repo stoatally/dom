@@ -60,7 +60,7 @@ trait NodeTrait
      */
     public function appendChild(DOMNode $node)
     {
-        throw new BadMethodCallException('Deprecated method `appendChild`.');
+        throw new BadMethodCallException('The method `appendChild` is deprecated, use `append` instead.');
     }
 
     public function append($value): NodeTypes\Node
