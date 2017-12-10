@@ -70,7 +70,7 @@ class NodeTest extends TestCase
         $this->assertEquals("<a></a>\n", $document->saveHtml());
     }
 
-    public function testappendToEmptyNode()
+    public function testAppendToEmptyNode()
     {
         $document = $this->createDocument('<a/>');
 

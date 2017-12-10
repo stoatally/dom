@@ -2,6 +2,7 @@
 
 namespace Stoatally\Dom;
 
+use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 
 class ChildNodeTest extends TestCase
@@ -85,6 +86,14 @@ class ChildNodeTest extends TestCase
         $this->assertTrue($results instanceof NodeTypes\Iterator);
         $this->assertEquals(1, count($results));
         $this->assertEquals("<a></a>\n", $document->saveHtml());
+    }
+
+    public function testAppendChildException()
+    {
+        $document = $this->createDocument('<a/>');
+
+        $this->expectException(BadMethodCallException::class);
+        $document->appendChild($document->createElement('a'));
     }
 
     public function testPrependSibling()
